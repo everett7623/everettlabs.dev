@@ -60,7 +60,7 @@
 
 ## 当前阻塞
 
-- 当前目录没有 Git worktree 或远程，无法通过 CLI 将 Worker 连接至 GitHub；Cloudflare Builds 的 `main` 生产构建和 PR 预览需在 Dashboard 连接 `everett7623/everettlabs.dev` 后验证。应用内浏览器没有 Cloudflare 登录态，当前 Chrome 配置也未安装 ChatGPT Chrome Extension，无法代为完成 Dashboard 操作。
+- 当前目录已初始化 Git 并推送公开仓库 `everett7623/everettlabs.dev`；Cloudflare Builds 的 `main` 生产构建和 PR 预览仍需在 Dashboard 完成仓库连接。应用内浏览器没有 Cloudflare 登录态，当前 Chrome 配置也未安装 ChatGPT Chrome Extension，无法代为完成 Dashboard 操作。
 - `http://everettlabs.dev` 当前返回 200 而非重定向；需在 Cloudflare Zone Dashboard 启用 Always Use HTTPS 后复测。
 - 公开仓库复核确认 LinkVitals、Nezha Cleaner、DistroLift、VPS Scripts、NodeLoc Bench 没有可验证界面截图，GloboKit 仅有项目插画；Linketry 仓库存在应用资源但未找到可直接复用的已发布界面截图。不得使用虚构媒体。
 - 生产 Lighthouse 会被本机 AdGuard 向主文档注入的两段内联脚本污染，严格 CSP 正确阻止了这些脚本；直接审计还会触发 Windows `chrome-launcher` 清理临时目录的 `EPERM`。需在无注入的 Linux/CI 环境运行 `npm run audit:lighthouse:production` 完成最终四分类 95+ 验收。
@@ -201,10 +201,11 @@
 - [x] 增加 `.gitignore` 与 LF 属性，并确认暂存区不包含生成产物、凭据或本地环境文件。
 - [x] 初始化 `main` 分支，创建包含当前完整官网实现的首次提交 `c97fb54`。
 - [x] 创建 `everett7623/everettlabs.dev` 公开仓库并推送 `main`。
-- [ ] 核对远程、提交哈希、工作树状态和 GitHub Actions 工作流可见性。
+- [x] 核对远程、提交哈希、工作树状态和 GitHub Actions 工作流可见性。
 
 ### 发布记录
 
 - 公开仓库已创建：`https://github.com/everett7623/everettlabs.dev`，默认分支为 `main`。
 - 首次 GitHub Actions `PR Validation` 在干净 Ubuntu 环境通过静态校验、类型检查、Playwright 和 Lighthouse；生产 Lighthouse 按预期仅在手动触发时运行。
 - 首次运行提示旧版官方 Actions 使用已弃用的 Node.js 20；已根据官方最新 release 将 checkout、setup-node 和 upload-artifact 升级到 `v7`，等待后续提交复测。
+- `8556031` 已推送并通过升级后的第二次 `PR Validation`；静态校验、类型检查、Playwright 和 Lighthouse 全部通过，Node.js 20 弃用注解已消失。
