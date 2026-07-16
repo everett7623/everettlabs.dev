@@ -199,6 +199,12 @@
 ### 发布验收
 
 - [x] 增加 `.gitignore` 与 LF 属性，并确认暂存区不包含生成产物、凭据或本地环境文件。
-- [ ] 初始化 `main` 分支，创建包含当前完整官网实现的首次提交。
-- [ ] 创建 `everett7623/everettlabs.dev` 公开仓库并推送 `main`。
+- [x] 初始化 `main` 分支，创建包含当前完整官网实现的首次提交 `c97fb54`。
+- [x] 创建 `everett7623/everettlabs.dev` 公开仓库并推送 `main`。
 - [ ] 核对远程、提交哈希、工作树状态和 GitHub Actions 工作流可见性。
+
+### 发布记录
+
+- 公开仓库已创建：`https://github.com/everett7623/everettlabs.dev`，默认分支为 `main`。
+- 首次 GitHub Actions `PR Validation` 在干净 Ubuntu 环境通过静态校验、类型检查、Playwright 和 Lighthouse；生产 Lighthouse 按预期仅在手动触发时运行。
+- 首次运行提示旧版官方 Actions 使用已弃用的 Node.js 20；已根据官方最新 release 将 checkout、setup-node 和 upload-artifact 升级到 `v7`，等待后续提交复测。
