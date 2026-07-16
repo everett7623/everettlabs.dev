@@ -1,0 +1,23 @@
+---
+interface Props {
+  text: string;
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral';
+}
+
+const { text, variant = 'neutral' } = Astro.props;
+
+const classes: Record<string, string> = {
+  primary: 'bg-accent-violet/10 text-accent-violet-text border-accent-violet/30',
+  secondary: 'bg-accent-cyan/10 text-accent-cyan border-accent-cyan/20',
+  success: 'bg-status-green/10 text-status-green border-status-green/20',
+  warning: 'bg-warning/10 text-warning border-warning/20',
+  danger: 'bg-danger/10 text-danger border-danger/20',
+  neutral: 'bg-surface-raised text-text-secondary border-border',
+};
+---
+
+<span
+  class={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium tracking-wide font-mono ${classes[variant]}`}
+>
+  {text}
+</span>

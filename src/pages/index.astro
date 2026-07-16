@@ -1,0 +1,173 @@
+---
+import EngineeringPrinciples from '../components/EngineeringPrinciples.astro';
+import Layout from '../layouts/Layout.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import Terminal from '../components/Terminal.tsx';
+import { getCollection } from 'astro:content';
+import { site } from '../utils/site.ts';
+
+const allProjects = await getCollection('projects');
+const featured = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
+const utilities = allProjects
+  .filter((p) => !p.data.featured)
+  .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
+---
+
+<Layout>
+  <section class="relative overflow-hidden border-b border-border">
+    <div
+      class="pointer-events-none absolute inset-0 opacity-20"
+      style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <p class="font-mono text-sm tracking-widest text-accent-cyan">INDEPENDENT SOFTWARE LAB</p>
+          <h1
+            class="mt-4 text-4xl font-bold tracking-tight text-text-primary sm:text-5xl lg:text-6xl"
+          >
+            Useful software for people who would rather automate it.
+          </h1>
+          <p class="mt-6 max-w-xl text-lg text-text-secondary">
+            I build open-source systems, browser tools, WordPress plugins, and Linux utilities —
+            engineered with privacy, reliability, and long-term ownership in mind.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-4">
+            <a
+              href="/projects"
+              class="inline-flex items-center gap-2 rounded-md bg-accent-violet px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-accent-violet/20 transition hover:bg-accent-violet/90"
+            >
+              Explore Projects
+            </a>
+            <a
+              href={site.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-text-primary transition hover:border-text-muted"
+            >
+              View on GitHub <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <a
+            href={site.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-4 inline-flex items-center gap-1 text-sm text-text-secondary transition hover:text-text-primary"
+          >
+            Follow on Telegram <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="w-full max-w-xl lg:ml-auto">
+          <Terminal client:load />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between">
+      <div>
+        <p class="font-mono text-xs tracking-widest text-accent-cyan">FEATURED PROJECTS</p>
+        <h2 class="mt-2 text-2xl font-semibold text-text-primary">What I am building</h2>
+      </div>
+      <a href="/projects" class="text-sm text-text-secondary transition hover:text-text-primary"
+        >View all →</a
+      >
+    </div>
+    <div class="mt-8">
+      <ProjectGrid projects={featured} compact={false} />
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-surface/30">
+    <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <p class="font-mono text-xs tracking-widest text-accent-cyan">INFRASTRUCTURE UTILITIES</p>
+      <h2 class="mt-2 text-2xl font-semibold text-text-primary">
+        Linux, automation, and server tooling
+      </h2>
+      <div class="mt-8">
+        <ProjectGrid projects={utilities} compact={true} />
+      </div>
+    </div>
+  </section>
+
+  <EngineeringPrinciples />
+
+  <section class="border-y border-border">
+    <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-2">
+        <div>
+          <p class="font-mono text-xs tracking-widest text-accent-cyan">NOTES FROM THE LAB</p>
+          <h2 class="mt-2 text-2xl font-semibold text-text-primary">
+            Deployment notes, guides, and experiments
+          </h2>
+          <p class="mt-4 max-w-md text-text-secondary">
+            Deployment notes, technical guides, experiments, and lessons learned while building and
+            maintaining software.
+          </p>
+          <a
+            href={site.seedloc}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-6 inline-flex items-center gap-1 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-text-primary transition hover:border-text-muted"
+          >
+            Read Seedloc <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div>
+          <p class="font-mono text-xs tracking-widest text-accent-cyan">ABOUT THE LAB</p>
+          <h2 class="mt-2 text-2xl font-semibold text-text-primary">
+            Independent and purpose-built
+          </h2>
+          <p class="mt-4 max-w-md text-text-secondary">
+            Everett Labs is an independent software lab built by Frank. This is not a résumé or a
+            generic portfolio — it is an active laboratory for practical tools.
+          </p>
+          <a
+            href="/about"
+            class="mt-6 inline-block text-sm font-medium text-accent-cyan transition hover:text-text-primary"
+          >
+            More about Everett Labs →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <div
+      class="rounded-2xl border border-border bg-surface p-8 sm:p-12 lg:flex lg:items-center lg:justify-between"
+    >
+      <div class="max-w-2xl">
+        <p class="font-mono text-xs tracking-widest text-accent-cyan">SUPPORT THE LAB</p>
+        <h2 class="mt-2 text-2xl font-semibold text-text-primary">
+          Open-source software runs on curiosity, late nights, and coffee.
+        </h2>
+        <p class="mt-4 text-text-secondary">
+          If something here saved you time or solved a real problem, your support helps fund the
+          next release.
+        </p>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-4 lg:mt-0">
+        <a
+          href="/coffee"
+          class="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-5 py-2.5 text-sm font-medium text-text-primary transition hover:border-text-muted"
+        >
+          Crypto Support
+        </a>
+        <a
+          href={site.telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-md bg-accent-violet px-5 py-2.5 text-sm font-medium text-white transition hover:bg-accent-violet/90"
+        >
+          Message Me
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,45 @@
+---
+name: VPS Scripts
+slug: vps-scripts
+repository: everett7623/vps_scripts
+category: infrastructure
+projectType: linux-toolkit
+status: active
+ownership: original
+featured: false
+homeOrder: 1
+license: open-source
+tags:
+  - Linux
+  - Bash
+  - DevOps
+  - Diagnostics
+  - Benchmarking
+  - Automation
+summary: A modular Linux operations toolkit for system maintenance, diagnostics, benchmarking, environment setup, and server administration.
+---
+
+## What it solves
+
+Maintaining a Linux server involves repetitive inspection, updates, cleanup, and benchmarking. VPS Scripts wraps those tasks into a modular terminal launcher with sensible defaults and clear prompts.
+
+## Who it is for
+
+System administrators, VPS operators, and anyone who spends too much time running the same set of maintenance commands.
+
+## Why it exists
+
+Administration scripts are often scattered across gists and blog posts. VPS Scripts collects them into a maintainable menu, documents what each path does, and keeps destructive actions behind confirmation gates.
+
+## Key capabilities
+
+- System inspection and update workflows
+- Conservative cleanup and health checks
+- Security checks and network diagnostics
+- Performance benchmarks and development environment setup
+- Menu-driven `vps.sh` launcher
+- 34 validation scripts covering menu paths, safety, release metadata, and core installers
+
+## Engineering notes
+
+The project uses `vps.sh` as its primary launcher and maintains a legacy compatibility entry. All scripts are written in Bash and target common Debian and Ubuntu environments.

@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Page not found"
+  description="The requested page does not exist on everettlabs.dev."
+  noindex
+>
+  <section class="mx-auto max-w-7xl px-4 py-32 text-center sm:px-6 lg:px-8">
+    <p class="font-mono text-6xl font-bold text-accent-cyan">404</p>
+    <h1 class="mt-4 text-3xl font-bold tracking-tight text-text-primary">Page not found</h1>
+    <p class="mt-4 text-text-secondary">
+      The page you are looking for does not exist or has been moved.
+    </p>
+    <a
+      href="/"
+      class="mt-8 inline-flex items-center gap-2 rounded-md bg-accent-violet px-5 py-2.5 text-sm font-medium text-white transition hover:bg-accent-violet/90"
+    >
+      Back to home
+    </a>
+  </section>
+</Layout>

@@ -1,0 +1,70 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const products = allProjects
+  .filter((p) => p.data.category === 'product')
+  .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
+const infrastructure = allProjects
+  .filter((p) => p.data.category === 'infrastructure')
+  .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
+const community = allProjects
+  .filter((p) => p.data.category === 'community')
+  .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
+---
+
+<Layout
+  title="Projects"
+  description="All Everett Labs projects, grouped by products, infrastructure utilities, and community tools."
+>
+  <section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <p class="font-mono text-xs tracking-widest text-accent-cyan">PROJECTS INDEX</p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight text-text-primary">Software from the lab</h1>
+    <p class="mt-4 max-w-2xl text-text-secondary">
+      A curated set of tools built for the web, browsers, WordPress, and Linux. Each project is
+      maintained with a clear scope and a bias toward ownership.
+    </p>
+  </section>
+
+  <section class="border-y border-border">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between">
+        <h2 class="text-2xl font-semibold text-text-primary">Products</h2>
+        <span class="font-mono text-xs text-text-muted"
+          >{String(products.length).padStart(2, '0')}</span
+        >
+      </div>
+      <div class="mt-8">
+        <ProjectGrid projects={products} compact={false} />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between">
+      <h2 class="text-2xl font-semibold text-text-primary">Infrastructure Utilities</h2>
+      <span class="font-mono text-xs text-text-muted"
+        >{String(infrastructure.length).padStart(2, '0')}</span
+      >
+    </div>
+    <div class="mt-8">
+      <ProjectGrid projects={infrastructure} compact={true} />
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-surface/30">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between">
+        <h2 class="text-2xl font-semibold text-text-primary">Community Projects</h2>
+        <span class="font-mono text-xs text-text-muted"
+          >{String(community.length).padStart(2, '0')}</span
+        >
+      </div>
+      <div class="mt-8">
+        <ProjectGrid projects={community} compact={true} />
+      </div>
+    </div>
+  </section>
+</Layout>

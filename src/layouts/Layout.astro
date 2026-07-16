@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CommandPalette from '../components/CommandPalette.tsx';
+import type { StructuredData } from '../types/seo.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  structuredData?: StructuredData;
+  noindex?: boolean;
+  class?: string;
+}
+
+const { title, description, image, structuredData, noindex, class: className } = Astro.props;
+const fullTitle = title
+  ? title.endsWith('Everett Labs')
+    ? title
+    : `${title} — Everett Labs`
+  : 'Everett Labs — Independent Software Lab';
+---
+
+<!doctype html>
+<html lang="en" class="bg-background text-text-primary">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#07080a" />
+    <SEO
+      title={fullTitle}
+      description={description}
+      image={image}
+      structuredData={structuredData}
+      noindex={noindex}
+    />
+  </head>
+  <body
+    class="min-h-screen flex flex-col antialiased selection:bg-accent-violet/30 selection:text-text-primary"
+  >
+    <Header />
+    <main class:list={['flex-1', className]}>
+      <slot />
+    </main>
+    <Footer />
+    <CommandPalette client:load />
+  </body>
+</html>

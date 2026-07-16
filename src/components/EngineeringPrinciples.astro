@@ -1,0 +1,37 @@
+---
+const principles = [
+  {
+    title: 'LOCAL WHEN POSSIBLE',
+    body: 'Prefer on-device processing and self-hosted infrastructure that you can inspect and keep.',
+  },
+  {
+    title: 'RELIABILITY BEFORE COMPLEXITY',
+    body: 'Critical paths stay understandable, testable, and difficult to break.',
+  },
+  {
+    title: 'OPEN BY DEFAULT',
+    body: 'Code, documentation, and defaults should support inspection, modification, and long-term ownership.',
+  },
+  {
+    title: 'DETAILS ARE THE PRODUCT',
+    body: 'Small interactions, clear errors, safe defaults, and thorough docs define developer tools.',
+  },
+];
+---
+
+<section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+  <p class="font-mono text-xs tracking-widest text-accent-cyan">ENGINEERING PRINCIPLES</p>
+  <h2 class="mt-2 text-2xl font-semibold text-text-primary">How this lab operates</h2>
+  <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      principles.map((principle) => (
+        <div class="rounded-xl border border-border bg-surface p-6 transition hover:border-text-muted">
+          <h3 class="font-mono text-sm font-semibold tracking-wider text-accent-cyan">
+            {principle.title}
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-text-secondary">{principle.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

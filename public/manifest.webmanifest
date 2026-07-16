@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Everett Labs",
+  "short_name": "Everett Labs",
+  "description": "Independent software lab for useful tools, open systems, and edge-native experiments.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07080a",
+  "theme_color": "#07080a",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

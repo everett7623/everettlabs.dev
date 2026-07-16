@@ -1,0 +1,56 @@
+---
+import QRCode from 'qrcode';
+import Layout from '../layouts/Layout.astro';
+import CryptoPaymentList from '../components/CryptoPaymentList.tsx';
+import type { CryptoPaymentDisplay } from '../types/crypto-payment.ts';
+import { getConfiguredCryptoPayments } from '../utils/crypto-payments.ts';
+import { site } from '../utils/site.ts';
+
+const configuredPayments = getConfiguredCryptoPayments(site.cryptoPayments);
+const payments: CryptoPaymentDisplay[] = await Promise.all(
+  configuredPayments.map(async (payment) => ({
+    ...payment,
+    qrDataUrl: await QRCode.toDataURL(payment.address, {
+      errorCorrectionLevel: 'M',
+      margin: 2,
+      width: 320,
+      color: {
+        dark: '#07080a',
+        light: '#f2f5f7',
+      },
+    }),
+  })),
+);
+---
+
+<Layout
+  title="Support Everett Labs"
+  description="Support Everett Labs open-source work with cryptocurrency."
+>
+  <section class="mx-auto max-w-6xl px-4 py-24 text-center sm:px-6 lg:px-8">
+    <p class="font-mono text-xs tracking-widest text-accent-cyan">SUPPORT THE LAB</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight text-text-primary sm:text-5xl">
+      Support Everett Labs
+    </h1>
+    <p class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary">
+      Contributions help cover testing, documentation, infrastructure, and continued maintenance
+      across Everett Labs projects.
+    </p>
+
+    {
+      payments.length > 0 ? (
+        <div class="mt-12">
+          <CryptoPaymentList payments={payments} client:load />
+          <p class="mx-auto mt-8 max-w-2xl text-sm leading-6 text-text-muted">
+            On-chain transfers are public and irreversible. Verify both the asset and network before
+            sending.
+          </p>
+        </div>
+      ) : (
+        <p class="mt-12 font-mono text-sm text-text-muted">
+          Cryptocurrency payment details are not currently published.
+        </p>
+      )
+    }
+  </section>
+</Layout>

@@ -1,0 +1,46 @@
+---
+name: DistroLift
+slug: distrolift
+repository: everett7623/debian-auto-upgrade
+category: infrastructure
+projectType: operating-system-maintenance
+status: stable
+ownership: original
+featured: false
+homeOrder: 3
+license: open-source
+tags:
+  - Debian
+  - Ubuntu
+  - Bash
+  - System Upgrade
+  - VPS
+  - Automation
+riskNotice: Operating system upgrades can make a server inaccessible. Always prepare a full snapshot, application backup, and console access before proceeding.
+summary: A cautious, step-by-step upgrade tool for Debian and Ubuntu LTS servers.
+---
+
+## What it solves
+
+Upgrading Debian or Ubuntu LTS releases can break networking, bootloader configuration, or running services. DistroLift automates the supported path with preflight checks and staged controls.
+
+## Who it is for
+
+Administrators of Debian and Ubuntu LTS servers who need a safer way to move to the next release.
+
+## Why it exists
+
+Release upgrades are often run manually with no rollback plan. DistroLift enforces preflight checks, source backups, and controlled reboot behavior.
+
+## Key capabilities
+
+- Supported Debian and Ubuntu LTS upgrade paths
+- Preflight checks and source backups
+- APT lock handling and low-memory protection
+- Container detection and conservative GRUB handling
+- Failure diagnostics and repair modes
+- Mirror selection and cleanup
+
+## Engineering notes
+
+DistroLift is written in Bash and uses staged upgrade controls. It defaults to stable-only safeguards and never skips confirmation for risky steps.

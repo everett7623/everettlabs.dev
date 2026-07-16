@@ -1,0 +1,195 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Badge from '../../components/Badge.astro';
+import ProjectScreenshot from '../../components/ProjectScreenshot.astro';
+import { getRepoMeta, type GitHubProjectMeta } from '../../utils/github.ts';
+import { site } from '../../utils/site.ts';
+import { createSoftwareSchema } from '../../utils/seo.ts';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const meta: GitHubProjectMeta | undefined = getRepoMeta(entry.data.repository);
+
+const statusVariantMap: Record<string, 'success' | 'warning' | 'secondary' | 'neutral'> = {
+  active: 'success',
+  stable: 'secondary',
+  beta: 'warning',
+  maintained: 'secondary',
+  experimental: 'neutral',
+  archived: 'neutral',
+};
+
+const githubUrl = `https://github.com/${entry.data.repository}`;
+const description = entry.data.summary ?? site.description;
+const structuredData = createSoftwareSchema({
+  title: `${entry.data.name} — Everett Labs`,
+  name: entry.data.name,
+  description,
+  url: `${site.url}/projects/${entry.data.slug}`,
+  category: entry.data.projectType,
+  repository: entry.data.repository,
+  tags: entry.data.tags,
+  license: entry.data.license ?? meta?.license ?? undefined,
+  release: meta?.latestRelease,
+  website: entry.data.website,
+});
+---
+
+<Layout
+  title={entry.data.name}
+  description={description}
+  image={`${site.url}/og/projects/${entry.data.slug}.svg`}
+  structuredData={structuredData}
+>
+  <section class="relative border-b border-border">
+    <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap gap-2">
+        <Badge
+          text={entry.data.status}
+          variant={statusVariantMap[entry.data.status] ?? 'neutral'}
+        />
+        {entry.data.ownership === 'community' && <Badge text="COMMUNITY" variant="secondary" />}
+        {entry.data.slug === 'linketry' && <Badge text="FLAGSHIP" variant="primary" />}
+        {entry.data.status === 'beta' && <Badge text="BETA" variant="warning" />}
+      </div>
+
+      <h1 class="mt-6 text-4xl font-bold tracking-tight text-text-primary sm:text-5xl">
+        {entry.data.name}
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-text-secondary">
+        {entry.data.summary}
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition hover:border-text-muted"
+        >
+          View on GitHub <span aria-hidden="true">↗</span>
+        </a>
+        {
+          entry.data.website && (
+            <a
+              href={entry.data.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-md bg-accent-violet px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-violet/90"
+            >
+              Live Site <span aria-hidden="true">↗</span>
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    {
+      entry.data.screenshot &&
+        entry.data.screenshotAvif &&
+        entry.data.screenshotAlt &&
+        entry.data.screenshotWidth &&
+        entry.data.screenshotHeight &&
+        entry.data.screenshotSource && (
+          <ProjectScreenshot
+            src={entry.data.screenshot}
+            avif={entry.data.screenshotAvif}
+            alt={entry.data.screenshotAlt}
+            width={entry.data.screenshotWidth}
+            height={entry.data.screenshotHeight}
+            source={entry.data.screenshotSource}
+          />
+        )
+    }
+
+    <article class="prose prose-invert max-w-none">
+      <Content />
+    </article>
+
+    <div class="mt-16 grid gap-8 rounded-xl border border-border bg-surface p-6 sm:grid-cols-2">
+      <div>
+        <h2 class="font-mono text-sm font-semibold tracking-widest text-accent-cyan">
+          CURRENT STATUS
+        </h2>
+        <dl class="mt-4 space-y-2 text-sm">
+          <div class="flex justify-between border-b border-border pb-2">
+            <dt class="text-text-muted">Status</dt>
+            <dd class="text-text-primary">{entry.data.status}</dd>
+          </div>
+          <div class="flex justify-between border-b border-border pb-2">
+            <dt class="text-text-muted">Release</dt>
+            <dd class="text-text-primary">{meta?.latestRelease || '—'}</dd>
+          </div>
+          <div class="flex justify-between border-b border-border pb-2">
+            <dt class="text-text-muted">License</dt>
+            <dd class="text-text-primary">{entry.data.license || meta?.license || '—'}</dd>
+          </div>
+          <div class="flex justify-between border-b border-border pb-2">
+            <dt class="text-text-muted">Primary language</dt>
+            <dd class="text-text-primary">{meta?.language || '—'}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-text-muted">Repository</dt>
+            <dd class="text-text-primary">{entry.data.repository}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div>
+        <h2 class="font-mono text-sm font-semibold tracking-widest text-accent-cyan">STACK</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {
+            entry.data.tags.map((tag) => (
+              <span class="rounded bg-surface-raised px-2 py-1 text-xs font-mono text-text-secondary">
+                {tag}
+              </span>
+            ))
+          }
+        </div>
+
+        {
+          (meta?.stars || meta?.forks) && (
+            <div class="mt-6 flex gap-4 text-sm text-text-muted">
+              {meta?.stars !== null && meta?.stars !== undefined && (
+                <span>★ {meta.stars.toLocaleString()} stars</span>
+              )}
+              {meta?.forks !== null && meta?.forks !== undefined && (
+                <span>⑃ {meta.forks.toLocaleString()} forks</span>
+              )}
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      entry.data.riskNotice && (
+        <div class="mt-8 rounded-xl border border-warning/30 bg-warning/10 p-6 text-sm text-warning">
+          <strong>Safety notice:</strong> {entry.data.riskNotice}
+        </div>
+      )
+    }
+
+    {
+      entry.data.credits && (
+        <div class="mt-8 rounded-xl border border-border bg-surface p-6 text-sm text-text-secondary">
+          <h3 class="mb-2 font-mono text-sm font-semibold tracking-widest text-accent-cyan">
+            ATTRIBUTION
+          </h3>
+          <p>{entry.data.credits}</p>
+        </div>
+      )
+    }
+  </section>
+</Layout>

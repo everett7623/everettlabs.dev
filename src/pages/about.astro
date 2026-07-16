@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../utils/site.ts';
+import { createProfilePageSchema } from '../utils/seo.ts';
+
+const description =
+  'Everett Labs is an independent software lab built by Frank. Practical open-source software for the web, browsers, WordPress, and Linux.';
+const structuredData = createProfilePageSchema({
+  title: 'About Everett Labs',
+  description,
+  url: `${site.url}/about`,
+});
+
+const principles = [
+  {
+    title: 'Useful before impressive',
+    body: 'Projects should solve real problems rather than exist only as technical demonstrations.',
+  },
+  {
+    title: 'Reliability over unnecessary complexity',
+    body: 'Critical paths must remain understandable, testable, and difficult to break.',
+  },
+  {
+    title: 'Open by default',
+    body: 'Projects should support inspection, self-hosting, modification, and long-term ownership whenever appropriate.',
+  },
+  {
+    title: 'Privacy-aware',
+    body: 'Avoid unnecessary telemetry, tracking, remote processing, and data collection.',
+  },
+  {
+    title: 'Details matter',
+    body: 'Good developer tools are often defined by small interactions, clear error handling, safe defaults, and thorough documentation.',
+  },
+];
+---
+
+<Layout title="About Everett Labs" description={description} structuredData={structuredData}>
+  <section class="mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
+    <p class="font-mono text-xs tracking-widest text-accent-cyan">ABOUT</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight text-text-primary sm:text-5xl">
+      Everett Labs is an independent software lab built by Frank.
+    </h1>
+    <p class="mt-6 text-lg text-text-secondary">
+      I build practical open-source software for the web, browsers, WordPress, and Linux — with an
+      unreasonable attention to reliability, privacy, and detail.
+    </p>
+
+    <div class="mt-16 space-y-6 text-text-secondary leading-relaxed">
+      <p>
+        Everett Labs is not a generic portfolio or a résumé website. It is a working laboratory for
+        tools that solve real problems: link management, browser bookmark workflows, WordPress site
+        health, Linux server maintenance, and edge-native applications.
+      </p>
+      <p>
+        Everything here is built in public, documented, and designed to be self-hosted or inspected.
+        The goal is long-term ownership: software you can run, fork, or learn from without asking
+        permission.
+      </p>
+    </div>
+
+    <h2 class="mt-16 font-mono text-sm font-semibold tracking-widest text-accent-cyan">
+      BRAND PRINCIPLES
+    </h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+      {
+        principles.map((p) => (
+          <div class="rounded-xl border border-border bg-surface p-6 transition hover:border-text-muted">
+            <h3 class="font-semibold text-text-primary">{p.title}</h3>
+            <p class="mt-2 text-sm text-text-secondary">{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="mt-16 font-mono text-sm font-semibold tracking-widest text-accent-cyan">CONTACT</h2>
+    <p class="mt-4 text-text-secondary">The fastest way to reach me is on Telegram.</p>
+    <a
+      href={site.telegram}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-4 inline-flex items-center gap-2 rounded-md bg-accent-violet px-5 py-2.5 text-sm font-medium text-white transition hover:bg-accent-violet/90"
+    >
+      Message on Telegram <span aria-hidden="true">↗</span>
+    </a>
+  </section>
+</Layout>

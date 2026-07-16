@@ -1,0 +1,11 @@
+.astro/
+.codex/
+.lighthouseci/
+dist/
+lighthouse-reports/
+node_modules/
+playwright-report/
+public/projects/
+test-results/
+*.md
+package-lock.json

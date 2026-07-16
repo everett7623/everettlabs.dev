@@ -1,0 +1,38 @@
+---
+interface Props {
+  src: string;
+  avif: string;
+  alt: string;
+  width: number;
+  height: number;
+  source: string;
+}
+
+const { src, avif, alt, width, height, source } = Astro.props;
+---
+
+<figure class="mb-12 overflow-hidden rounded-xl border border-border bg-surface">
+  <picture>
+    <source srcset={avif} type="image/avif" />
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      class="block h-auto w-full"
+    />
+  </picture>
+  <figcaption class="border-t border-border px-4 py-3 text-xs text-text-muted">
+    Project interface captured from the
+    <a
+      href={source}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="ml-1 inline-flex min-h-11 items-center underline decoration-border underline-offset-4 transition hover:text-text-primary"
+    >
+      source repository
+    </a>.
+  </figcaption>
+</figure>

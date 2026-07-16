@@ -1,0 +1,46 @@
+---
+name: Nezha Cleaner
+slug: nezha-cleaner
+repository: everett7623/Nezha-cleaner
+category: infrastructure
+projectType: linux-maintenance
+status: stable
+ownership: original
+featured: false
+homeOrder: 2
+license: open-source
+tags:
+  - Linux
+  - Bash
+  - System Cleanup
+  - Docker
+  - Safety
+  - Automation
+riskNotice: Review destructive operations carefully. Create a backup or server snapshot before running system cleanup tools.
+summary: A safety-focused removal utility for Nezha Agent and Dashboard installations across native and Docker environments.
+---
+
+## What it solves
+
+Removing Nezha Agent or Dashboard can leave behind processes, services, cron jobs, Docker containers, and residual files. Nezha Cleaner traces installations and removes them with explicit confirmations.
+
+## Who it is for
+
+System administrators who need to remove Nezha components without leaving orphaned services or containers.
+
+## Why it exists
+
+Uninstalling monitoring agents by hand is risky. Nezha Cleaner applies checks, protects media files, and validates the final state.
+
+## Key capabilities
+
+- Separate Agent and Dashboard cleanup flows
+- Process, service, cron, and path detection
+- Docker container and image removal
+- Docker ownership verification
+- Media-file protection
+- Post-removal validation
+
+## Engineering notes
+
+Nezha Cleaner is written in Bash and runs on native and Docker-based Nezha installations. Each destructive step asks for confirmation to reduce the chance of accidents.

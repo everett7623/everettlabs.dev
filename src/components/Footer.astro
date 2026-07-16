@@ -1,0 +1,59 @@
+---
+import { site } from '../utils/site.ts';
+---
+
+<footer class="border-t border-border bg-surface py-12">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+      <div>
+        <p class="text-sm text-text-secondary">
+          <a
+            href="/coffee"
+            class="inline-flex min-h-11 items-center text-text-primary hover:text-accent-cyan"
+            >Support the lab</a
+          >
+          <span class="mx-2 text-text-muted">·</span>
+          <a
+            href={site.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-11 items-center text-text-primary hover:text-accent-cyan"
+            >Message me</a
+          >
+        </p>
+      </div>
+
+      <nav class="flex flex-wrap gap-4 text-sm text-text-muted">
+        <a
+          href={site.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-11 items-center hover:text-text-primary">GitHub</a
+        >
+        <a
+          href={site.seedloc}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-11 items-center hover:text-text-primary">Seedloc</a
+        >
+        <a
+          href={site.telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-11 items-center hover:text-text-primary">Telegram</a
+        >
+        <a href="/coffee" class="inline-flex min-h-11 items-center hover:text-text-primary"
+          >Crypto Support</a
+        >
+      </nav>
+    </div>
+
+    <div
+      class="mt-8 border-t border-border pt-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-text-muted"
+    >
+      <p>© 2026 Everett Labs. Built in public. Deployed at the edge.</p>
+      <p class="font-mono uppercase">ASTRO / TYPESCRIPT / CLOUDFLARE</p>
+      <p class="font-mono text-status-green">SYSTEM STATUS: OPERATIONAL</p>
+    </div>
+  </div>
+</footer>
