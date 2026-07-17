@@ -86,7 +86,7 @@
 ## 当前阻塞
 
 - 公开仓库复核确认 LinkVitals、Nezha Cleaner、DistroLift、VPS Scripts、NodeLoc Bench 没有可验证界面截图，GloboKit 仅有项目插画；Linketry 仓库存在应用资源但未找到可直接复用的已发布界面截图。不得使用虚构媒体。
-- Cloudflare 账号、生产 Lighthouse、Builds 与 Always Use HTTPS 阻塞均已解除；首次真实 push 自动构建等待本轮任务记录提交后验证。
+- Cloudflare 账号、生产 Lighthouse、Builds 与 Always Use HTTPS 阻塞均已解除；首次真实 push 已自动构建并部署成功。
 
 ## 当前继续推进范围
 
@@ -265,6 +265,7 @@
 - `[通过]` 部署版本 `8e948b66-1b50-4af8-867d-c3c1c7bdae20`：自定义域名与 workers.dev 均返回新版 Coffee，四个地址和四张二维码存在；生产浏览器渲染 4 张卡片、无横向溢出、控制台 0 errors。
 - `[通过]` 生产关键路由状态为首页 200、Linketry 200、Coffee 200、robots 200、sitemap 200、未知路由 404；CSP、HSTS、X-Content-Type-Options、X-Frame-Options 和 Referrer-Policy 均从公网响应验证。
 - `[通过]` 已认证 Dashboard 会话完成 Always Use HTTPS 与 GitHub Builds 配置；公网 HTTP 实测 301，Builds 的仓库、命令、根目录与分支控制均与项目规范一致。
+- `[通过]` Cloudflare Build `b336d145-02d1-40a7-9a95-8d982ac13467` 将提交 `bf1d580` 自动部署为版本 `db9617ab` 并承载 100% 流量；生产路由、Coffee 地址、GA4 与安全头回归通过。
 
 ## 2026-07-17 GitHub 首次发布
 

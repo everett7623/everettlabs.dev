@@ -29,7 +29,7 @@
 - Dashboard 账号、Worker 与 Zone 均已核对为 Account ID `4cc48c9e3b9f084844f4485d51899e36` 下的 `everettlabs-dev` 和 `everettlabs.dev`。
 - Cloudflare Builds 已连接 `everett7623/everettlabs.dev`；构建命令为 `npm run build`，部署命令为 `npx wrangler deploy`，生产分支为 `main`，非生产分支构建已启用。
 - Always Use HTTPS 已启用；公网 HTTP 请求返回 `301 Moved Permanently`，目标为 `https://everettlabs.dev/`。
-- 首次真实 push 构建与自动部署等待本任务记录提交后验证。
+- 首次真实 push 已通过 Cloudflare Build `b336d145-02d1-40a7-9a95-8d982ac13467`，提交 `bf1d580` 自动部署为版本 `db9617ab` 并承载 100% 流量。
 
 ## 验证记录
 
@@ -42,3 +42,6 @@
 - `[通过]` 无 `GITHUB_TOKEN` 的 `npm run build`：保留已有 GitHub 快照并生成 13 个静态页面。
 - `[环境阻塞]` 本机 `npm run audit:lighthouse` 再次受到 AdGuard 注入、Lighthouse `NO_LCP` 与 Windows 临时目录 `EPERM` 影响；不把受污染结果记为代码失败，最终指标继续以干净 Ubuntu 工作流为准。
 - `[通过]` 已认证 Dashboard 会话确认登录账号为 `Everett7623@gmail.com's Account`，Account ID、Zone ID 与 Worker 均匹配项目配置。
+- `[通过]` GitHub Actions `29567656916` 在提交 `bf1d580` 上通过；Cloudflare Builds 同一提交构建成功并自动部署。
+- `[通过]` 自动部署后首页、Linketry、Coffee、robots 与 sitemap 均为 200，未知路由为 404；Coffee 包含 4 个 Copy 控件及四个正确完整地址，GA4 ID 与安全响应头保持有效。
+- `[通过]` `http://everettlabs.dev` 公网返回 301，`Location` 精确指向 `https://everettlabs.dev/`。
