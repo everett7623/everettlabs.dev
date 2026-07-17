@@ -241,6 +241,33 @@
 - `[通过]` `npx playwright test --headed --workers=1`：7 项通过、3 项按设备范围跳过；桌面与移动 Chromium 均验证四个完整地址的真实剪贴板写入，移动端无横向溢出。
 - `[通过]` 1440 × 1000 桌面和 Pixel 5 全页截图视觉复核：二维码非空，桌面 2 × 2、移动端单列，完整地址、操作按钮和警告均无重叠或裁切。
 
+## 2026-07-17 Cloudflare 部署账号与自动发布修复
+
+### 范围与现状
+
+- `main` 已推送到 `f529c6e` 且 GitHub Actions 验证通过，但生产 `/coffee` 仍返回不含收款地址的旧版 12.5 KB HTML；禁用浏览器缓存后 Cloudflare 仍返回旧 Worker 静态资源。
+- 仓库工作流只负责校验，没有部署步骤；Cloudflare Builds 尚未连接 GitHub，因此 push 不会自动发布生产版本。
+- 当前默认 Wrangler OAuth 只属于账号 `b0fa092c63382065751fc97b15171f51`，生产 Worker `everettlabs-dev` 属于账号 `4cc48c9e3b9f084844f4485d51899e36`，版本 API 返回认证错误 `10000`。
+- 本轮固定生产账号、绑定项目专用认证配置并部署当前提交；原生产版本 `62de78ed-f02e-4088-a187-0138c91b1af2` 保留为回滚点，`main` 自动构建仍需 Dashboard 登录后配置。
+
+### 验收标准
+
+- [x] `wrangler.jsonc` 显式指定生产账号，错误账号凭据必须快速失败，不能静默部署到其他账号。
+- [x] 本机创建 `everettlabs-prod` 命名认证配置并绑定当前项目目录，`wrangler whoami` 能确认目标账号和 Worker 版本可见。
+- [x] 当前 `f529c6e` 构建产物部署到 `everettlabs-dev`，生产 Coffee 包含四个真实地址和本地生成二维码。
+- [x] 生产首页、项目页、Coffee、robots、sitemap、404 和安全响应头完成回归验证，HTTPS 响应包含一年期 HSTS。
+- [ ] `http://everettlabs.dev` 返回 `301` 或 `308` 并指向 HTTPS；当前仍返回 200，需在 Zone Dashboard 启用 Always Use HTTPS。
+- [ ] Cloudflare Builds 连接 `everett7623/everettlabs.dev`，`main` 用于生产，Pull Request 用于预览；后续 push 不再依赖本机默认 OAuth 账号。
+- [x] 实际结果回写后提交并推送账号配置与任务记录，不提交 OAuth Token、API Token 或浏览器会话数据。
+
+### 验证结果
+
+- `[通过]` 创建并绑定命名 profile `everettlabs-prod`；`wrangler whoami --json` 确认登录邮箱为 `everett7623@gmail.com`、账号为 `4cc48c9e3b9f084844f4485d51899e36`，默认错误账号不再用于本项目。
+- `[通过]` `npm run validate:static`：11 个测试文件、56 项测试全部通过；`npm run typecheck` 为 0 errors、0 warnings，保留 2 条原有上游提示；无 `GITHUB_TOKEN` 构建生成 13 个静态页面。
+- `[通过]` 部署版本 `8e948b66-1b50-4af8-867d-c3c1c7bdae20`：自定义域名与 workers.dev 均返回新版 Coffee，四个地址和四张二维码存在；生产浏览器渲染 4 张卡片、无横向溢出、控制台 0 errors。
+- `[通过]` 生产关键路由状态为首页 200、Linketry 200、Coffee 200、robots 200、sitemap 200、未知路由 404；CSP、HSTS、X-Content-Type-Options、X-Frame-Options 和 Referrer-Policy 均从公网响应验证。
+- `[阻塞]` 当前 OAuth Token 可管理目标 Worker，但无 Zone Settings 写权限；Always Use HTTPS API 返回认证错误，`http://everettlabs.dev` 仍为 200。Cloudflare Builds 也需 Dashboard 登录后连接 GitHub，本轮不标记为通过。
+
 ## 2026-07-17 GitHub 首次发布
 
 ### 发布范围

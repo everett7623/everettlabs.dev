@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "everettlabs-dev",
+  "account_id": "4cc48c9e3b9f084844f4485d51899e36",
   "compatibility_date": "2026-07-16",
   "workers_dev": true,
   "preview_urls": true,

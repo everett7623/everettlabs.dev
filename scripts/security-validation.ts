@@ -7,6 +7,7 @@ const requiredHeaders: Record<string, string> = {
   'x-content-type-options': 'nosniff',
   'x-frame-options': 'DENY',
   'referrer-policy': 'strict-origin-when-cross-origin',
+  'strict-transport-security': 'max-age=31536000',
   'cross-origin-opener-policy': 'same-origin',
 };
 

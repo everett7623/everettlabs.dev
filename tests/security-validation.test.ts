@@ -39,6 +39,17 @@ describe('security header validation', () => {
     );
   });
 
+  it('requires HTTPS responses to advertise HSTS', () => {
+    const content = readFileSync(headersFile, 'utf-8').replace(
+      '  Strict-Transport-Security: max-age=31536000\n',
+      '',
+    );
+
+    expect(validateSecurityHeaders(content).map((issue) => issue.message)).toContain(
+      'Expected max-age=31536000, found nothing.',
+    );
+  });
+
   it('accepts the current Astro hash-based CSP configuration', () => {
     expect(validateAstroCsp(astroConfig)).toEqual([]);
   });
