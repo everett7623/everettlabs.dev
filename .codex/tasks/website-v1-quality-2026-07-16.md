@@ -42,7 +42,7 @@
 - [x] 修正 muted 文本、violet 徽章和主按钮对比度，并把主题关键颜色对比度纳入静态可访问性校验。
 - [x] 将本地 Lighthouse 的 Performance、Accessibility 和 SEO 断言提升到 0.95；新增 HTTPS 生产审计入口并记录本机环境阻塞，不降低四分类 0.95 门槛。
 - [x] 重新运行 `validate:static`、`typecheck`、`build`、`test:e2e` 和 `audit:lighthouse`。
-- [x] 只读核对 Cloudflare Builds、Web Analytics 与 Always Use HTTPS 当前状态；Web Analytics 已从生产 DOM 验证，HTTP 复测确认仍返回 200，Builds 与 HTTPS 设置因 Dashboard 登录态不可用仍阻塞。
+- [x] 完成 Cloudflare Builds、Web Analytics 与 Always Use HTTPS：Web Analytics 已从生产 DOM 验证，Builds 已连接规范 GitHub 仓库，HTTP 已实测 301 跳转至 HTTPS。
 - [x] 回写本轮真实验证结果、生产状态和最终剩余阻塞。
 
 ## 2026-07-17 同步与生产验收续作
@@ -53,7 +53,7 @@
 - [x] 执行 `git pull --ff-only origin main`，确认本地与远程均位于 `f0c97e3`，工作区在本地同步完成后保持干净。
 - [x] 手动触发 GitHub Actions `PR Validation`，在干净 Ubuntu 环境运行生产 HTTPS Lighthouse。
 - [x] 根据工作流真实结果更新生产 Lighthouse 验收状态，不降低四分类 0.95 门槛。
-- [x] 在现有认证能力范围内继续核对 Cloudflare Builds 与 Always Use HTTPS；当前 Wrangler OAuth 账号与已部署 Worker 的账号不一致，需要切换到正确 Cloudflare 账号后继续。
+- [x] 通过项目命名 profile 与已认证 Dashboard 会话核对正确 Cloudflare 账号，完成 Builds 与 Always Use HTTPS 设置。
 
 ### 验收标准
 
@@ -85,10 +85,8 @@
 
 ## 当前阻塞
 
-- 当前目录已初始化 Git 并推送公开仓库 `everett7623/everettlabs.dev`；Cloudflare Builds 的 `main` 生产构建和 PR 预览仍需在 Dashboard 完成仓库连接。应用内浏览器没有 Cloudflare 登录态，当前 Chrome 配置也未安装 ChatGPT Chrome Extension，无法代为完成 Dashboard 操作。
-- `http://everettlabs.dev` 当前返回 200 而非重定向；需在 Cloudflare Zone Dashboard 启用 Always Use HTTPS 后复测。
 - 公开仓库复核确认 LinkVitals、Nezha Cleaner、DistroLift、VPS Scripts、NodeLoc Bench 没有可验证界面截图，GloboKit 仅有项目插画；Linketry 仓库存在应用资源但未找到可直接复用的已发布界面截图。不得使用虚构媒体。
-- 生产 Lighthouse 已在干净 Linux CI 完成最终四分类 95+ 验收；项目已绑定正确的 `everettlabs-prod` 认证配置。剩余 Cloudflare 阻塞仅为 Dashboard 登录后连接 Builds，以及启用并实测 Always Use HTTPS。
+- Cloudflare 账号、生产 Lighthouse、Builds 与 Always Use HTTPS 阻塞均已解除；首次真实 push 自动构建等待本轮任务记录提交后验证。
 
 ## 当前继续推进范围
 
@@ -113,9 +111,9 @@
 - [x] 使用真实浏览器完成移动端溢出和动态可访问性审计。
 - [x] 完成 Lighthouse 上线性能审计。
 - [x] 创建并部署 `everettlabs-dev` Worker，绑定 `everettlabs.dev` Custom Domain，验证 DNS、HTTPS、生产路由与安全头。
-- [ ] 在 Cloudflare Dashboard 连接 GitHub 仓库，启用 Cloudflare Builds 的 `main` 生产和 PR 预览构建。
+- [x] 在 Cloudflare Dashboard 连接 GitHub 仓库，启用 Cloudflare Builds 的 `main` 生产和 PR 预览构建。
 - [x] Cloudflare Web Analytics 已在生产端自动注入，公开 beacon token 为 `628d2b9d0e2e45429316236593a48a5e`；CSP 已仅放行 `static.cloudflareinsights.com` 和 `cloudflareinsights.com`，安全契约与生产响应头通过。
-- [ ] 启用 Cloudflare Always Use HTTPS 并复测 HTTP 重定向。
+- [x] 启用 Cloudflare Always Use HTTPS 并复测 HTTP 重定向。
 
 ## 本轮验收标准
 
@@ -256,8 +254,8 @@
 - [x] 本机创建 `everettlabs-prod` 命名认证配置并绑定当前项目目录，`wrangler whoami` 能确认目标账号和 Worker 版本可见。
 - [x] 当前 `f529c6e` 构建产物部署到 `everettlabs-dev`，生产 Coffee 包含四个真实地址和本地生成二维码。
 - [x] 生产首页、项目页、Coffee、robots、sitemap、404 和安全响应头完成回归验证，HTTPS 响应包含一年期 HSTS。
-- [ ] `http://everettlabs.dev` 返回 `301` 或 `308` 并指向 HTTPS；当前仍返回 200，需在 Zone Dashboard 启用 Always Use HTTPS。
-- [ ] Cloudflare Builds 连接 `everett7623/everettlabs.dev`，`main` 用于生产，Pull Request 用于预览；后续 push 不再依赖本机默认 OAuth 账号。
+- [x] `http://everettlabs.dev` 返回 `301 Moved Permanently`，`Location` 为 `https://everettlabs.dev/`。
+- [x] Cloudflare Builds 连接 `everett7623/everettlabs.dev`，`main` 用于生产，非生产分支构建已启用。
 - [x] 实际结果回写后提交并推送账号配置与任务记录，不提交 OAuth Token、API Token 或浏览器会话数据。
 
 ### 验证结果
@@ -266,7 +264,7 @@
 - `[通过]` `npm run validate:static`：11 个测试文件、56 项测试全部通过；`npm run typecheck` 为 0 errors、0 warnings，保留 2 条原有上游提示；无 `GITHUB_TOKEN` 构建生成 13 个静态页面。
 - `[通过]` 部署版本 `8e948b66-1b50-4af8-867d-c3c1c7bdae20`：自定义域名与 workers.dev 均返回新版 Coffee，四个地址和四张二维码存在；生产浏览器渲染 4 张卡片、无横向溢出、控制台 0 errors。
 - `[通过]` 生产关键路由状态为首页 200、Linketry 200、Coffee 200、robots 200、sitemap 200、未知路由 404；CSP、HSTS、X-Content-Type-Options、X-Frame-Options 和 Referrer-Policy 均从公网响应验证。
-- `[阻塞]` 当前 OAuth Token 可管理目标 Worker，但无 Zone Settings 写权限；Always Use HTTPS API 返回认证错误，`http://everettlabs.dev` 仍为 200。Cloudflare Builds 也需 Dashboard 登录后连接 GitHub，本轮不标记为通过。
+- `[通过]` 已认证 Dashboard 会话完成 Always Use HTTPS 与 GitHub Builds 配置；公网 HTTP 实测 301，Builds 的仓库、命令、根目录与分支控制均与项目规范一致。
 
 ## 2026-07-17 GitHub 首次发布
 

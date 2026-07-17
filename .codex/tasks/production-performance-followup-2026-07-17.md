@@ -22,11 +22,14 @@
 - [x] 根据真实报告决定是否需要实现修复；未发现页面或 GA4 回归，不调整加载策略。
 - [x] 为 Lighthouse 包装脚本增加分类分数与 FCP、LCP、TBT、CLS 摘要，后续工作流可直接比较趋势。
 - [x] 运行受影响范围验证并回写结果。
-- [ ] 核对 Cloudflare Dashboard 登录态，继续 Builds 与 Always Use HTTPS。
+- [x] 核对 Cloudflare Dashboard 登录态，完成 Builds 与 Always Use HTTPS 配置。
 
-## 当前阻塞
+## Cloudflare 完成状态
 
-- Cloudflare Builds 与 Zone 设置需要已认证 Dashboard 会话；若仍停留在登录页，保留为用户登录后的下一步，不使用其他账号代替。
+- Dashboard 账号、Worker 与 Zone 均已核对为 Account ID `4cc48c9e3b9f084844f4485d51899e36` 下的 `everettlabs-dev` 和 `everettlabs.dev`。
+- Cloudflare Builds 已连接 `everett7623/everettlabs.dev`；构建命令为 `npm run build`，部署命令为 `npx wrangler deploy`，生产分支为 `main`，非生产分支构建已启用。
+- Always Use HTTPS 已启用；公网 HTTP 请求返回 `301 Moved Permanently`，目标为 `https://everettlabs.dev/`。
+- 首次真实 push 构建与自动部署等待本任务记录提交后验证。
 
 ## 验证记录
 
@@ -38,4 +41,4 @@
 - `[通过]` `npm run typecheck`：0 errors、0 warnings，保留 2 条既有上游提示。
 - `[通过]` 无 `GITHUB_TOKEN` 的 `npm run build`：保留已有 GitHub 快照并生成 13 个静态页面。
 - `[环境阻塞]` 本机 `npm run audit:lighthouse` 再次受到 AdGuard 注入、Lighthouse `NO_LCP` 与 Windows 临时目录 `EPERM` 影响；不把受污染结果记为代码失败，最终指标继续以干净 Ubuntu 工作流为准。
-- `[阻塞]` 应用内 Cloudflare Dashboard 仍重定向至登录页，未修改 Builds 或 Zone 设置。
+- `[通过]` 已认证 Dashboard 会话确认登录账号为 `Everett7623@gmail.com's Account`，Account ID、Zone ID 与 Worker 均匹配项目配置。
