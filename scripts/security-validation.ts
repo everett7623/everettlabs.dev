@@ -24,7 +24,7 @@ const requiredAstroDirectives = [
   "default-src 'self'",
   "img-src 'self' data: https:",
   "font-src 'self'",
-  "connect-src 'self' https://cloudflareinsights.com",
+  "connect-src 'self' https://cloudflareinsights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
   "manifest-src 'self'",
 ];
 
@@ -98,7 +98,11 @@ export function validateAstroCsp(config: unknown): SecurityIssue[] {
   }
 
   const scripts = stringArray(asRecord(csp.scriptDirective)?.resources);
-  for (const resource of ["'self'", 'https://static.cloudflareinsights.com']) {
+  for (const resource of [
+    "'self'",
+    'https://static.cloudflareinsights.com',
+    'https://*.googletagmanager.com',
+  ]) {
     if (!scripts.includes(resource)) {
       issues.push({
         field: 'astro.config.mjs',

@@ -15,11 +15,15 @@ export default defineConfig({
         "default-src 'self'",
         "img-src 'self' data: https:",
         "font-src 'self'",
-        "connect-src 'self' https://cloudflareinsights.com",
+        "connect-src 'self' https://cloudflareinsights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
         "manifest-src 'self'",
       ],
       scriptDirective: {
-        resources: ["'self'", 'https://static.cloudflareinsights.com'],
+        resources: [
+          "'self'",
+          'https://static.cloudflareinsights.com',
+          'https://*.googletagmanager.com',
+        ],
       },
       styleDirective: {
         resources: ["'self'"],

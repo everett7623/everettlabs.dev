@@ -1157,7 +1157,7 @@ Testing: Vitest + Playwright
 Linting: ESLint
 Formatting: Prettier
 Deployment: Cloudflare Workers Static Assets
-Analytics: Cloudflare Web Analytics
+Analytics: Cloudflare Web Analytics + GA4 (Consent Mode denied by default)
 Package manager: npm
 ```
 
@@ -1711,7 +1711,12 @@ Decorative terminal text must not create repetitive screen-reader noise.
 
 # 22. Analytics and Privacy
 
-Use Cloudflare Web Analytics only.
+Use Cloudflare Web Analytics and the approved GA4 Measurement ID `G-905QVGHLT6`.
+
+GA4 must run only on the `everettlabs.dev` production hostname and initialize Consent Mode v2 before
+loading `gtag.js`, with `analytics_storage`, `ad_storage`, `ad_user_data`, and `ad_personalization`
+denied by default. Do not provide an implicit grant path, enable Google Signals, or load advertising
+endpoints.
 
 Do not add:
 

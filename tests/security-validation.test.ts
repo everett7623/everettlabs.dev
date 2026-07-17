@@ -54,7 +54,7 @@ describe('security header validation', () => {
     expect(validateAstroCsp(astroConfig)).toEqual([]);
   });
 
-  it('requires the approved Cloudflare Web Analytics endpoints', () => {
+  it('requires the approved analytics endpoints', () => {
     const messages = validateAstroCsp({
       security: {
         csp: {
@@ -69,8 +69,9 @@ describe('security header validation', () => {
       'scriptDirective must include https://static.cloudflareinsights.com.',
     );
     expect(messages).toContain(
-      "CSP must include connect-src 'self' https://cloudflareinsights.com.",
+      "CSP must include connect-src 'self' https://cloudflareinsights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com.",
     );
+    expect(messages).toContain('scriptDirective must include https://*.googletagmanager.com.');
   });
 
   it('rejects broad script and style sources', () => {

@@ -147,7 +147,7 @@ const { Content } = await render(entry);
 - 保持 `public/_headers` 中的安全响应头，并在新增脚本、字体、分析或外部资源后重新验证 CSP。
 - 不暴露 `GITHUB_TOKEN` 或任何构建密钥到客户端环境变量。
 - 不加入广告像素、会话回放、指纹识别或不必要 Cookie。
-- 分析仅允许使用 Cloudflare Web Analytics，并限制为规格批准的匿名事件。
+- 分析仅允许使用 Cloudflare Web Analytics 和生产域名限定的 GA4 `G-905QVGHLT6`；GA4 必须默认拒绝 `analytics_storage`、`ad_storage`、`ad_user_data` 与 `ad_personalization`，禁止广告信号和未批准的自定义事件。
 - 对部署、删除、覆盖生成快照和环境敏感操作，先核对影响范围与回滚方式。
 
 ## 验证要求
