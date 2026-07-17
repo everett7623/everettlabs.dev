@@ -28,8 +28,8 @@
 - [x] 保持 `USDT · TRON (TRC20)`、`USDC · Base`、`BTC · Bitcoin` 和
       `USDT · The Open Network (TON)` 四个入口，不再扩展其他网络。
 - [x] 静态校验、类型检查、无 `GITHUB_TOKEN` 构建与桌面/移动浏览器回归通过。
-- [ ] 提交和推送只包含本任务文件、依赖锁文件、相关源码、测试与长期规范。
-- [ ] 使用 `everettlabs-prod` dry run 后部署，保留部署前 Worker 版本作为回滚点。
+- [x] 提交和推送只包含本任务文件、相关源码、测试与长期规范。
+- [x] 使用 `everettlabs-prod` dry run 后部署，保留部署前 Worker 版本作为回滚点。
 - [ ] Cloudflare Builds 的生产分支为 `main`，非生产分支生成预览版本。
 - [ ] `http://everettlabs.dev` 返回 `301` 或 `308` 且 `Location` 指向 HTTPS。
 - [x] Support Wallet 只迁移用户确认的公开地址；任何秘密材料均不得进入本任务上下文或仓库。
@@ -39,7 +39,7 @@
 - [x] 在不新增依赖的约束下接入 Base58Check、Bech32/Bech32m 与 TON CRC 校验。
 - [x] 修复 Coffee 页面标题与文案，补充地址校验测试。
 - [x] 更新 TON 长期规范与主产品规格。
-- [ ] 提交、推送、等待 GitHub Actions 并部署生产版本。
+- [x] 提交、推送、等待 GitHub Actions 并部署生产版本。
 - [ ] 在已认证 Cloudflare Dashboard 中连接 GitHub Builds、启用 Always Use HTTPS 并复测。
 - [ ] 用户创建独立自托管钱包后，只替换经小额测试确认的公开地址。
 
@@ -59,6 +59,15 @@
 - `[通过]` `wrangler whoami --json` 与 `wrangler versions list` 确认活动 profile 为
   `everettlabs-prod`、目标账号为 `4cc48c9e3b9f084844f4485d51899e36`；`deploy --dry-run`
   读取 55 个静态资源，部署前版本 `95f28ff4-9c07-4789-832c-4f692f766eca` 保留为回滚点。
+- `[通过]` 提交 `1d6aa26` 已推送到 `origin/main`；GitHub Actions `29559206202` 的静态校验、
+  类型检查、Playwright 与本地生产 Lighthouse 全部成功。
+- `[通过]` 使用 `everettlabs-prod` 部署版本 `25197e62-837e-4649-b510-d3d2a3d11219`；生产
+  首页、Linketry、Coffee、robots 与 sitemap 返回 `200`，未知路由返回 `404`，Coffee 的
+  标题、H1、4 张卡片和 4 个二维码均从公网验证。
+- `[通过]` 生产 Coffee 保持 CSP、HSTS、X-Content-Type-Options、X-Frame-Options 和
+  Referrer-Policy；浏览器渲染无桌面横向溢出。
+- `[未通过]` `http://everettlabs.dev` 仍返回 `200`，不是要求的 `301` 或 `308`；必须在正确
+  Cloudflare Dashboard 会话中启用 Always Use HTTPS 后重新验证。
 
 ## 已知阻塞
 
