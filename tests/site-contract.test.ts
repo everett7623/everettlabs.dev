@@ -66,8 +66,6 @@ describe('command palette contract', () => {
   it('exposes one internal cryptocurrency support command', () => {
     const coffeeCommands = commands.filter((command) => command.href === '/coffee');
 
-    expect(coffeeCommands).toEqual([
-      { id: 'coffee', label: 'Open Crypto Support', href: '/coffee' },
-    ]);
+    expect(coffeeCommands).toEqual([{ id: 'coffee', label: 'Buy Me a Coffee', href: '/coffee' }]);
   });
 });
