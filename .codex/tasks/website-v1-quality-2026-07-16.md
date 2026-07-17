@@ -42,7 +42,7 @@
 - [x] 修正 muted 文本、violet 徽章和主按钮对比度，并把主题关键颜色对比度纳入静态可访问性校验。
 - [x] 将本地 Lighthouse 的 Performance、Accessibility 和 SEO 断言提升到 0.95；新增 HTTPS 生产审计入口并记录本机环境阻塞，不降低四分类 0.95 门槛。
 - [x] 重新运行 `validate:static`、`typecheck`、`build`、`test:e2e` 和 `audit:lighthouse`。
-- [x] 只读核对 Cloudflare Builds、Web Analytics 与 Always Use HTTPS 当前状态；Web Analytics 已从生产 DOM 验证，HTTP 重定向已通过请求复测，Builds 因 Dashboard 登录态不可用仍阻塞。
+- [x] 只读核对 Cloudflare Builds、Web Analytics 与 Always Use HTTPS 当前状态；Web Analytics 已从生产 DOM 验证，HTTP 复测确认仍返回 200，Builds 与 HTTPS 设置因 Dashboard 登录态不可用仍阻塞。
 - [x] 回写本轮真实验证结果、生产状态和最终剩余阻塞。
 
 ## 本轮开发范围
@@ -209,3 +209,4 @@
 - 首次 GitHub Actions `PR Validation` 在干净 Ubuntu 环境通过静态校验、类型检查、Playwright 和 Lighthouse；生产 Lighthouse 按预期仅在手动触发时运行。
 - 首次运行提示旧版官方 Actions 使用已弃用的 Node.js 20；已根据官方最新 release 将 checkout、setup-node 和 upload-artifact 升级到 `v7`，等待后续提交复测。
 - `8556031` 已推送并通过升级后的第二次 `PR Validation`；静态校验、类型检查、Playwright 和 Lighthouse 全部通过，Node.js 20 弃用注解已消失。
+- 最终文档提交 `6918eb6` 已推送，第三次 `PR Validation` 在提交 `6918eb61136c6cb2a792bb44f46a40c1caeef6b6` 上通过；本地 `main`、`origin/main` 与远程引用完全一致，工作树在发布完成时保持干净。
