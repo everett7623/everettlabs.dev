@@ -46,12 +46,53 @@ describe('crypto payment configuration', () => {
     expect(getConfiguredCryptoPayments(validPayments)).toEqual(validPayments);
   });
 
+  it('accepts a checksummed Bitcoin mainnet SegWit address', () => {
+    const bitcoin = validPayments.find((payment) => payment.id === 'btc-bitcoin');
+
+    if (!bitcoin) {
+      throw new Error('Missing Bitcoin test payment fixture.');
+    }
+
+    const address = 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4';
+    expect(getConfiguredCryptoPayments([{ ...bitcoin, address }])[0].address).toBe(address);
+  });
+
+  it('rejects an unverified mixed-case Base address', () => {
+    const base = validPayments.find((payment) => payment.id === 'usdc-base');
+
+    if (!base) {
+      throw new Error('Missing Base test payment fixture.');
+    }
+
+    expect(() =>
+      getConfiguredCryptoPayments([
+        { ...base, address: '0x8f7785aac2e3155b0411d91A2b54cf0742672e9b' },
+      ]),
+    ).toThrow('Invalid public receiving address');
+  });
+
   it.each([
     ['usdt-trc20', '0x1111111111111111111111111111111111111111'],
     ['usdc-base', 'TJRabPrwbZy45sbavfcjinPJC18kjpRTv8'],
     ['btc-bitcoin', 'tb1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'],
     ['usdt-ton', '0x1111111111111111111111111111111111111111'],
   ] as const)('rejects an invalid %s receiving address', (id, address) => {
+    const payment = validPayments.find((candidate) => candidate.id === id);
+
+    if (!payment) {
+      throw new Error(`Missing test payment fixture for ${id}.`);
+    }
+
+    expect(() => getConfiguredCryptoPayments([{ ...payment, address }])).toThrow(
+      'Invalid public receiving address',
+    );
+  });
+
+  it.each([
+    ['usdt-trc20', 'TWn6FFHfWv1JWYeWaeX8bjSfo1ZczSJi2y'],
+    ['btc-bitcoin', '13Zbh2uuvDi6obPWYrd832AXsWUznGs4ww'],
+    ['usdt-ton', 'UQCI5wwTZYZooo6L4yMg0npeTZxr7yhZMyDmKhen7rJOnRrG'],
+  ] as const)('rejects a checksum-invalid %s receiving address', (id, address) => {
     const payment = validPayments.find((candidate) => candidate.id === id);
 
     if (!payment) {

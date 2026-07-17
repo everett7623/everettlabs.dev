@@ -23,6 +23,8 @@ test('renders and copies the four approved cryptocurrency addresses', async ({ c
     origin: 'http://127.0.0.1:4322',
   });
   await page.goto('/coffee');
+  await expect(page).toHaveTitle('Buy Me a Coffee — Everett Labs');
+  await expect(page.getByRole('heading', { level: 1, name: 'Buy Me a Coffee' })).toBeVisible();
 
   const payments = [
     {

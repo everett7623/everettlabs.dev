@@ -1,11 +1,17 @@
 import type { CryptoPaymentMethod } from '../types/crypto-payment.ts';
+import {
+  isBitcoinMainnetAddress,
+  isEvmAddress,
+  isTonMainnetFriendlyAddress,
+  isTronMainnetAddress,
+} from './crypto-address-validation.ts';
 
-const addressPatterns = {
-  'usdt-trc20': /^T[1-9A-HJ-NP-Za-km-z]{33}$/,
-  'usdc-base': /^0x[a-fA-F0-9]{40}$/,
-  'btc-bitcoin': /^(?:[13][1-9A-HJ-NP-Za-km-z]{25,34}|bc1[a-z0-9]{11,71})$/,
-  'usdt-ton': /^(?:EQ|UQ|kQ|0Q)[A-Za-z0-9_-]{46}$/,
-} satisfies Record<CryptoPaymentMethod['id'], RegExp>;
+const addressValidators = {
+  'usdt-trc20': isTronMainnetAddress,
+  'usdc-base': isEvmAddress,
+  'btc-bitcoin': isBitcoinMainnetAddress,
+  'usdt-ton': isTonMainnetFriendlyAddress,
+} satisfies Record<CryptoPaymentMethod['id'], (address: string) => boolean>;
 
 const explorerUrlBuilders = {
   'usdt-trc20': (address: string) =>
@@ -26,7 +32,7 @@ export function getConfiguredCryptoPayments(
       return [];
     }
 
-    if (!addressPatterns[method.id].test(address)) {
+    if (!addressValidators[method.id](address)) {
       throw new Error(`Invalid public receiving address for ${method.asset} on ${method.network}.`);
     }
 

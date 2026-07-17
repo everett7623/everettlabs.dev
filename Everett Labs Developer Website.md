@@ -1500,7 +1500,7 @@ Prefer self-hosted fonts and images.
 Every page footer should contain:
 
 ```text
-Support the lab · Buy me a coffee
+Support the lab · Buy Me a Coffee
 ```
 
 ## 18.2 Coffee Page
@@ -1511,43 +1511,45 @@ Route:
 /coffee
 ```
 
-The page may support:
+The page supports exactly these asset and network pairs:
 
-- Buy Me a Coffee external link
-    
-- GitHub Sponsors when available
-    
-- WeChat Pay QR code
-    
-- Alipay QR code
-    
+- USDT · TRON (TRC20)
 
-Payment QR codes must be stored as local static assets.
+- USDC · Base
 
-Do not expose unnecessary personal payment information.
+- BTC · Bitcoin Mainnet
+
+- USDT · The Open Network (TON)
+
+Do not add an external Buy Me a Coffee service, GitHub Sponsors, WeChat Pay, Alipay, or additional
+crypto networks without a new explicit product decision.
+
+Each configured method must display the asset, full network name, complete public address, local QR
+code, copy action, matching block explorer, and an irreversible wrong-network warning. QR codes are
+generated locally at build time from the configured public address; they must not be hotlinked or
+copied from an exchange screenshot.
+
+Do not expose unnecessary personal payment information or any wallet secret.
 
 ## 18.3 Configuration
 
 ```ts
-export const supportLinks = {
-  buyMeACoffee: "",
-  githubSponsors: "",
-  telegram: "https://t.me/jensfrank",
-  wechatQr: "/support/wechat.webp",
-  alipayQr: "/support/alipay.webp",
-};
+export const cryptoPayments = [
+  { id: "usdt-trc20", address: "" },
+  { id: "usdc-base", address: "" },
+  { id: "btc-bitcoin", address: "" },
+  { id: "usdt-ton", address: "" },
+];
 ```
 
-Empty payment methods must not render buttons.
+Empty payment methods must not render cards, buttons, or QR codes. Non-empty addresses must pass the
+matching network validation before the site can build.
 
 ## 18.4 Coffee Copy
 
 ```text
-Open-source software takes time, testing, documentation,
-infrastructure, and a questionable amount of coffee.
-
-If a project saved you time or helped you solve a problem,
-your support helps keep future releases moving.
+Contributions help cover testing, documentation, infrastructure,
+and continued maintenance across Everett Labs projects.
 ```
 
 ---
