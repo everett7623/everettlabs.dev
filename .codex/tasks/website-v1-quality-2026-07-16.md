@@ -34,7 +34,7 @@
 ### 当前质量缺口
 
 - 其余项目仍需补充来源可验证的本地截图；禁止使用虚构界面代替。
-- 干净 Ubuntu CI 已完成生产 HTTPS Lighthouse，确认当前线上版本的首页与 Linketry 均为 Performance 99、Accessibility 100、Best Practices 93、SEO 100；唯一失败项是生产响应头 CSP 阻止 Astro islands 的内联运行时。修复已在本地完成并通过 Cloudflare 本地运行验证，但尚未部署，因此生产四分类仍不能标记为通过。
+- 干净 Ubuntu CI 已完成 GA4 上线后的生产 HTTPS Lighthouse：当前线上首页与 Linketry 均为 Performance 99、Accessibility 100、Best Practices 100、SEO 100，控制台错误为 0；LCP 分别为 2.0 秒与 1.9 秒，CLS 均为 0。
 
 ### 2026-07-17 收尾范围
 
@@ -88,7 +88,7 @@
 - 当前目录已初始化 Git 并推送公开仓库 `everett7623/everettlabs.dev`；Cloudflare Builds 的 `main` 生产构建和 PR 预览仍需在 Dashboard 完成仓库连接。应用内浏览器没有 Cloudflare 登录态，当前 Chrome 配置也未安装 ChatGPT Chrome Extension，无法代为完成 Dashboard 操作。
 - `http://everettlabs.dev` 当前返回 200 而非重定向；需在 Cloudflare Zone Dashboard 启用 Always Use HTTPS 后复测。
 - 公开仓库复核确认 LinkVitals、Nezha Cleaner、DistroLift、VPS Scripts、NodeLoc Bench 没有可验证界面截图，GloboKit 仅有项目插画；Linketry 仓库存在应用资源但未找到可直接复用的已发布界面截图。不得使用虚构媒体。
-- 生产 Lighthouse 已在干净 Linux CI 运行并暴露真实 CSP 回归；本地修复尚未部署。需先切换到拥有 `everettlabs-dev` 与 `everettlabs.dev` Zone 的 Cloudflare 账号，部署后重新运行 `npm run audit:lighthouse:production`，完成最终四分类 95+ 验收。
+- 生产 Lighthouse 已在干净 Linux CI 完成最终四分类 95+ 验收；项目已绑定正确的 `everettlabs-prod` 认证配置。剩余 Cloudflare 阻塞仅为 Dashboard 登录后连接 Builds，以及启用并实测 Always Use HTTPS。
 
 ## 当前继续推进范围
 
