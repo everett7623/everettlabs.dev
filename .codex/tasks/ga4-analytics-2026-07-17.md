@@ -28,14 +28,14 @@
 - [x] CSP 只新增 GA4 基础测量所需的脚本与连接域名，安全契约拒绝宽泛来源。
 - [x] 单元测试覆盖 Measurement ID、四项默认拒绝状态和广告信号禁用。
 - [x] 静态校验、类型检查、无 `GITHUB_TOKEN` 构建和桌面/移动浏览器回归通过。
-- [ ] 推送后 GitHub Actions 成功，生产域名存在 GA4 引导脚本且无 CSP 控制台错误。
+- [x] 推送后 GitHub Actions 成功，生产域名存在 GA4 引导脚本且无 CSP 控制台错误。
 
 ## TODO
 
 - [x] 新增 GA4 引导模块并挂载到全站 Layout。
 - [x] 更新 CSP、安全验证、主规格与长期协作约束。
 - [x] 增加分析配置契约测试并运行完整验证。
-- [ ] 提交、推送、等待 Actions、部署和验证生产行为。
+- [x] 提交、推送、等待 Actions、部署和验证生产行为。
 - [ ] Dashboard 登录后继续完成 Cloudflare Builds 与 Always Use HTTPS。
 
 ## 已知阻塞
@@ -54,3 +54,10 @@
   设备范围跳过，Coffee 地址复制和移动端溢出无回归。
 - `[通过]` 构建 HTML 包含 `G-905QVGHLT6`、四项 denied consent、广告信号禁用、生产域名
   限制及 Astro 生成的脚本哈希；CSP 未加入 `unsafe-inline`、`unsafe-eval` 或广告域名。
+- `[通过]` 提交 `13bbfa7` 已推送到 `origin/main`；GitHub Actions `29563108408` 的静态校验、
+  类型检查、Playwright 与本地 Lighthouse 全部成功。
+- `[通过]` 使用 `everettlabs-prod` 部署版本 `e031b419-1188-4d6f-8908-8b67586c424f`；
+  生产页面动态插入 `https://www.googletagmanager.com/gtag/js?id=G-905QVGHLT6`，该 URL
+  返回 `200`，浏览器错误日志为空，桌面 `scrollWidth` 未超过视口。
+- `[未通过]` `http://everettlabs.dev` 仍返回 `200`，Always Use HTTPS 仍需正确 Dashboard
+  会话完成后再验证 `301/308`。
