@@ -9,6 +9,26 @@ const site = 'https://everettlabs.dev';
 export default defineConfig({
   site,
   output: 'static',
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data: https:",
+        "font-src 'self'",
+        "connect-src 'self' https://cloudflareinsights.com",
+        "manifest-src 'self'",
+      ],
+      scriptDirective: {
+        resources: ["'self'", 'https://static.cloudflareinsights.com'],
+      },
+      styleDirective: {
+        resources: ["'self'"],
+      },
+    },
+  },
+  markdown: {
+    syntaxHighlight: 'prism',
+  },
   integrations: [
     react(),
     sitemap({

@@ -10,15 +10,22 @@ const requiredHeaders: Record<string, string> = {
   'cross-origin-opener-policy': 'same-origin',
 };
 
-const requiredCspDirectives: Record<string, readonly string[]> = {
-  'default-src': ["'self'"],
-  'script-src': ["'self'", 'https://static.cloudflareinsights.com'],
-  'connect-src': ["'self'", 'https://cloudflareinsights.com'],
+const requiredHeaderCspDirectives: Record<string, readonly string[]> = {
   'object-src': ["'none'"],
   'frame-ancestors': ["'none'"],
   'base-uri': ["'self'"],
   'form-action': ["'self'"],
 };
+
+const astroOwnedDirectives = ['default-src', 'script-src', 'style-src', 'connect-src'];
+
+const requiredAstroDirectives = [
+  "default-src 'self'",
+  "img-src 'self' data: https:",
+  "font-src 'self'",
+  "connect-src 'self' https://cloudflareinsights.com",
+  "manifest-src 'self'",
+];
 
 export function parseHeadersFile(content: string): Map<string, string> {
   const headers = new Map<string, string>();
@@ -48,7 +55,7 @@ export function validateSecurityHeaders(content: string): SecurityIssue[] {
   }
 
   const csp = parseCsp(headers.get('content-security-policy') ?? '');
-  for (const [directive, requiredValues] of Object.entries(requiredCspDirectives)) {
+  for (const [directive, requiredValues] of Object.entries(requiredHeaderCspDirectives)) {
     const actual = csp.get(directive) ?? [];
     for (const required of requiredValues) {
       if (!actual.includes(required)) {
@@ -60,12 +67,64 @@ export function validateSecurityHeaders(content: string): SecurityIssue[] {
     }
   }
 
-  const scriptSources = csp.get('script-src') ?? [];
-  for (const unsafeSource of ["'unsafe-inline'", "'unsafe-eval'", '*']) {
-    if (scriptSources.includes(unsafeSource)) {
+  for (const directive of astroOwnedDirectives) {
+    if (csp.has(directive)) {
       issues.push({
         field: 'content-security-policy',
-        message: `script-src must not include ${unsafeSource}.`,
+        message: `${directive} must be managed by Astro's hash-based CSP meta policy.`,
+      });
+    }
+  }
+
+  return issues;
+}
+
+export function validateAstroCsp(config: unknown): SecurityIssue[] {
+  const issues: SecurityIssue[] = [];
+  const root = asRecord(config);
+  const security = asRecord(root?.security);
+  const csp = asRecord(security?.csp);
+
+  if (!csp) {
+    return [{ field: 'astro.config.mjs', message: 'security.csp must be configured.' }];
+  }
+
+  const directives = stringArray(csp.directives);
+  for (const directive of requiredAstroDirectives) {
+    if (!directives.includes(directive)) {
+      issues.push({ field: 'astro.config.mjs', message: `CSP must include ${directive}.` });
+    }
+  }
+
+  const scripts = stringArray(asRecord(csp.scriptDirective)?.resources);
+  for (const resource of ["'self'", 'https://static.cloudflareinsights.com']) {
+    if (!scripts.includes(resource)) {
+      issues.push({
+        field: 'astro.config.mjs',
+        message: `scriptDirective must include ${resource}.`,
+      });
+    }
+  }
+
+  const styles = stringArray(asRecord(csp.styleDirective)?.resources);
+  if (!styles.includes("'self'")) {
+    issues.push({ field: 'astro.config.mjs', message: "styleDirective must include 'self'." });
+  }
+
+  for (const unsafeSource of ["'unsafe-inline'", "'unsafe-eval'", '*']) {
+    if (scripts.includes(unsafeSource)) {
+      issues.push({
+        field: 'astro.config.mjs',
+        message: `scriptDirective must not include ${unsafeSource}.`,
+      });
+    }
+  }
+
+  for (const unsafeSource of ["'unsafe-inline'", '*']) {
+    if (styles.includes(unsafeSource)) {
+      issues.push({
+        field: 'astro.config.mjs',
+        message: `styleDirective must not include ${unsafeSource}.`,
       });
     }
   }
@@ -80,4 +139,16 @@ function parseCsp(value: string): Map<string, string[]> {
     if (name) directives.set(name.toLowerCase(), sources);
   }
   return directives;
+}
+
+function asRecord(value: unknown): Record<string, unknown> | undefined {
+  return typeof value === 'object' && value !== null
+    ? (value as Record<string, unknown>)
+    : undefined;
+}
+
+function stringArray(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.filter((entry): entry is string => typeof entry === 'string')
+    : [];
 }

@@ -8,6 +8,7 @@ export default [
     ignores: [
       '.astro/**',
       '.lighthouseci/**',
+      '.wrangler/**',
       'dist/**',
       'lighthouse-reports/**',
       'node_modules/**',

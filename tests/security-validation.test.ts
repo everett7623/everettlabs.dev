@@ -1,7 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { parseHeadersFile, validateSecurityHeaders } from '../scripts/security-validation.ts';
+import {
+  parseHeadersFile,
+  validateAstroCsp,
+  validateSecurityHeaders,
+} from '../scripts/security-validation.ts';
+import astroConfig from '../astro.config.mjs';
 
 const headersFile = join(process.cwd(), 'public/_headers');
 
@@ -15,13 +20,15 @@ describe('security header validation', () => {
     expect(headers.get('x-frame-options')).toBe('DENY');
   });
 
-  it('rejects unsafe script policies and missing object restrictions', () => {
+  it('rejects resource directives in the response header and missing object restrictions', () => {
     const content = readFileSync(headersFile, 'utf-8')
-      .replace("script-src 'self'", "script-src 'self' 'unsafe-inline'")
+      .replace("object-src 'none'; ", "default-src 'self'; ")
       .replace("object-src 'none'; ", '');
     const messages = validateSecurityHeaders(content).map((issue) => issue.message);
 
-    expect(messages).toContain("script-src must not include 'unsafe-inline'.");
+    expect(messages).toContain(
+      "default-src must be managed by Astro's hash-based CSP meta policy.",
+    );
     expect(messages).toContain("object-src must include 'none'.");
   });
 
@@ -32,13 +39,38 @@ describe('security header validation', () => {
     );
   });
 
-  it('allows only the approved Cloudflare Web Analytics endpoints', () => {
-    const content = readFileSync(headersFile, 'utf-8')
-      .replace(' https://static.cloudflareinsights.com', '')
-      .replace(' https://cloudflareinsights.com', '');
-    const messages = validateSecurityHeaders(content).map((issue) => issue.message);
+  it('accepts the current Astro hash-based CSP configuration', () => {
+    expect(validateAstroCsp(astroConfig)).toEqual([]);
+  });
 
-    expect(messages).toContain('script-src must include https://static.cloudflareinsights.com.');
-    expect(messages).toContain('connect-src must include https://cloudflareinsights.com.');
+  it('requires the approved Cloudflare Web Analytics endpoints', () => {
+    const messages = validateAstroCsp({
+      security: {
+        csp: {
+          directives: ["default-src 'self'", "img-src 'self' data: https:", "font-src 'self'"],
+          scriptDirective: { resources: ["'self'"] },
+          styleDirective: { resources: ["'self'"] },
+        },
+      },
+    }).map((issue) => issue.message);
+
+    expect(messages).toContain(
+      'scriptDirective must include https://static.cloudflareinsights.com.',
+    );
+    expect(messages).toContain(
+      "CSP must include connect-src 'self' https://cloudflareinsights.com.",
+    );
+  });
+
+  it('rejects broad script and style sources', () => {
+    const csp = structuredClone(astroConfig.security?.csp);
+    if (!csp || typeof csp === 'boolean') throw new Error('Expected configured CSP.');
+
+    csp.scriptDirective = { resources: ["'self'", "'unsafe-inline'"] };
+    csp.styleDirective = { resources: ["'self'", '*'] };
+    const messages = validateAstroCsp({ security: { csp } }).map((issue) => issue.message);
+
+    expect(messages).toContain("scriptDirective must not include 'unsafe-inline'.");
+    expect(messages).toContain('styleDirective must not include *.');
   });
 });
