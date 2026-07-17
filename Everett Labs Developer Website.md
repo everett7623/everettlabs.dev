@@ -1531,6 +1531,10 @@ copied from an exchange screenshot.
 
 Do not expose unnecessary personal payment information or any wallet secret.
 
+The current implementation may use user-confirmed Binance public deposit addresses. Do not replace
+them with another wallet or payment provider without an explicit product decision. Any address
+change must re-verify the asset, network, complete address, generated QR code, and explorer target.
+
 ## 18.3 Configuration
 
 ```ts

@@ -6,16 +6,15 @@
 - 将四种公开收款地址从正则格式检查升级为对应网络的真实地址校验。
 - 统一 `AGENTS.md`、任务记录与当前页面的 TON 支持范围。
 - 完成 Cloudflare Builds 自动发布与 Always Use HTTPS 配置并验证生产行为。
-- 明确 Everett Labs Support Wallet 的自托管边界和公开地址迁移流程。
+- 记录继续使用用户确认的 Binance 公开充值地址，不引入独立钱包或第三方收款系统。
 
 ## 当前状态
 
-- `main` 与 `origin/main` 均为 `8bea04e`，生产 Worker 版本为
-  `95f28ff4-9c07-4789-832c-4f692f766eca`。
-- `/coffee` 当前浏览器标题和 H1 为 `Support Everett Labs`，与站内入口文案不一致。
-- 四个地址当前只做正则校验，无法拒绝格式相似但校验和错误的地址。
-- 当前公开地址来自 Binance 充值页，属于第三方托管充值地址；本任务不得生成、读取、
-  存储或提交私钥、助记词、Keystore、验证码或 API 密钥。
+- 本轮决策更新起点为 `266b869`；生产 Worker 版本为
+  `25197e62-837e-4649-b510-d3d2a3d11219`。
+- `/coffee` 浏览器标题与 H1 已统一为 `Buy Me a Coffee`，四种地址已通过对应网络验证。
+- 用户明确决定继续使用当前 Binance 公开充值地址，不迁移独立 Support Wallet；本任务
+  仍不得生成、读取、存储或提交私钥、助记词、Keystore、验证码或 API 密钥。
 - Cloudflare Builds 尚未连接 GitHub；`http://everettlabs.dev` 当前返回 `200`，未跳转 HTTPS。
 - Wrangler 项目目录绑定命名 profile `everettlabs-prod`，目标 Account ID 为
   `4cc48c9e3b9f084844f4485d51899e36`。
@@ -32,7 +31,7 @@
 - [x] 使用 `everettlabs-prod` dry run 后部署，保留部署前 Worker 版本作为回滚点。
 - [ ] Cloudflare Builds 的生产分支为 `main`，非生产分支生成预览版本。
 - [ ] `http://everettlabs.dev` 返回 `301` 或 `308` 且 `Location` 指向 HTTPS。
-- [x] Support Wallet 只迁移用户确认的公开地址；任何秘密材料均不得进入本任务上下文或仓库。
+- [x] 保留用户确认的 Binance 公开充值地址，不自行迁移钱包或引入其他收款平台。
 
 ## TODO
 
@@ -41,7 +40,7 @@
 - [x] 更新 TON 长期规范与主产品规格。
 - [x] 提交、推送、等待 GitHub Actions 并部署生产版本。
 - [ ] 在已认证 Cloudflare Dashboard 中连接 GitHub Builds、启用 Always Use HTTPS 并复测。
-- [ ] 用户创建独立自托管钱包后，只替换经小额测试确认的公开地址。
+- [x] 将保留 Binance 地址的当前产品决定同步到长期规范与主规格。
 
 ## 验证结果
 
@@ -73,5 +72,8 @@
 
 - Cloudflare Dashboard 当前未登录，Chrome 浏览器控制扩展不可用。首次 GitHub App 授权和
   Zone 设置修改必须在用户完成 Dashboard 登录后继续，不能使用默认错误账号代替。
-- 自托管 Support Wallet 的密钥必须由用户在自己的设备或硬件钱包中生成；Codex 不能代为
-  生成或接收密钥，因此公开地址迁移需等待用户提供四个确认后的公开地址。
+
+## 产品决定
+
+- 2026-07-17：用户明确保留当前 Binance 充值地址。独立 Support Wallet 不再属于本轮或
+  后续默认优化范围；只有用户再次明确要求时才讨论地址迁移。
