@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import QRCode from 'qrcode';
 import type { CryptoPaymentMethod } from '../src/types/crypto-payment.ts';
-import { getConfiguredCryptoPayments } from '../src/utils/crypto-payments.ts';
+import { getConfiguredCryptoPayments, getCryptoExplorerUrl } from '../src/utils/crypto-payments.ts';
 import { site } from '../src/utils/site.ts';
 
 const validPayments: CryptoPaymentMethod[] = [
@@ -9,28 +9,37 @@ const validPayments: CryptoPaymentMethod[] = [
     id: 'usdt-trc20',
     asset: 'USDT',
     network: 'TRON (TRC20)',
-    address: 'TJRabPrwbZy45sbavfcjinPJC18kjpRTv8',
+    address: 'TWn6FFHfWv1JWYeWaeX8bjSfo1ZczSJi2z',
     warning: 'TRON only.',
   },
   {
     id: 'usdc-base',
     asset: 'USDC',
-    network: 'Base',
-    address: '0x1111111111111111111111111111111111111111',
+    network: 'Base Network',
+    address: '0x8f7785aac2e3155b0411d91a2b54cf0742672e9b',
     warning: 'Base only.',
   },
   {
     id: 'btc-bitcoin',
     asset: 'BTC',
-    network: 'Bitcoin',
-    address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+    network: 'Bitcoin Mainnet',
+    address: '13Zbh2uuvDi6obPWYrd832AXsWUznGs4wv',
     warning: 'Bitcoin only.',
+  },
+  {
+    id: 'usdt-ton',
+    asset: 'USDT',
+    network: 'The Open Network (TON)',
+    address: 'UQCI5wwTZYZooo6L4yMg0npeTZxr7yhZMyDmKhen7rJOnRrF',
+    warning: 'TON only.',
   },
 ];
 
 describe('crypto payment configuration', () => {
   it('omits every payment method with an empty address', () => {
-    expect(getConfiguredCryptoPayments(site.cryptoPayments)).toEqual([]);
+    const emptyPayments = validPayments.map((payment) => ({ ...payment, address: '' }));
+
+    expect(getConfiguredCryptoPayments(emptyPayments)).toEqual([]);
   });
 
   it('accepts the supported network address formats', () => {
@@ -40,7 +49,8 @@ describe('crypto payment configuration', () => {
   it.each([
     ['usdt-trc20', '0x1111111111111111111111111111111111111111'],
     ['usdc-base', 'TJRabPrwbZy45sbavfcjinPJC18kjpRTv8'],
-    ['btc-bitcoin', '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy'],
+    ['btc-bitcoin', 'tb1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'],
+    ['usdt-ton', '0x1111111111111111111111111111111111111111'],
   ] as const)('rejects an invalid %s receiving address', (id, address) => {
     const payment = validPayments.find((candidate) => candidate.id === id);
 
@@ -59,11 +69,27 @@ describe('crypto payment configuration', () => {
     expect(qrDataUrl.startsWith('data:image/png;base64,')).toBe(true);
   });
 
-  it('keeps exactly the three approved asset and network pairs', () => {
+  it('maps each payment to its matching address explorer', () => {
+    expect(validPayments.map(getCryptoExplorerUrl)).toEqual([
+      'https://tronscan.org/#/address/TWn6FFHfWv1JWYeWaeX8bjSfo1ZczSJi2z',
+      'https://basescan.org/address/0x8f7785aac2e3155b0411d91a2b54cf0742672e9b',
+      'https://mempool.space/address/13Zbh2uuvDi6obPWYrd832AXsWUznGs4wv',
+      'https://tonviewer.com/UQCI5wwTZYZooo6L4yMg0npeTZxr7yhZMyDmKhen7rJOnRrF',
+    ]);
+  });
+
+  it('keeps exactly the four approved public asset and network pairs', () => {
     expect(site.cryptoPayments.map(({ asset, network }) => `${asset}:${network}`)).toEqual([
       'USDT:TRON (TRC20)',
-      'USDC:Base',
-      'BTC:Bitcoin',
+      'USDC:Base Network',
+      'BTC:Bitcoin Mainnet',
+      'USDT:The Open Network (TON)',
+    ]);
+    expect(site.cryptoPayments.map(({ address }) => address)).toEqual([
+      'TWn6FFHfWv1JWYeWaeX8bjSfo1ZczSJi2z',
+      '0x8f7785aac2e3155b0411d91a2b54cf0742672e9b',
+      '13Zbh2uuvDi6obPWYrd832AXsWUznGs4wv',
+      'UQCI5wwTZYZooo6L4yMg0npeTZxr7yhZMyDmKhen7rJOnRrF',
     ]);
     expect('buyMeACoffee' in site).toBe(false);
     expect('githubSponsors' in site).toBe(false);

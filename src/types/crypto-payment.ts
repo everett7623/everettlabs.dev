@@ -9,18 +9,26 @@ export type CryptoPaymentMethod =
   | {
       id: 'usdc-base';
       asset: 'USDC';
-      network: 'Base';
+      network: 'Base Network';
       address: string;
       warning: string;
     }
   | {
       id: 'btc-bitcoin';
       asset: 'BTC';
-      network: 'Bitcoin';
+      network: 'Bitcoin Mainnet';
+      address: string;
+      warning: string;
+    }
+  | {
+      id: 'usdt-ton';
+      asset: 'USDT';
+      network: 'The Open Network (TON)';
       address: string;
       warning: string;
     };
 
 export type CryptoPaymentDisplay = CryptoPaymentMethod & {
+  explorerUrl: string;
   qrDataUrl: string;
 };

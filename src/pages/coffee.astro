@@ -3,13 +3,14 @@ import QRCode from 'qrcode';
 import Layout from '../layouts/Layout.astro';
 import CryptoPaymentList from '../components/CryptoPaymentList.tsx';
 import type { CryptoPaymentDisplay } from '../types/crypto-payment.ts';
-import { getConfiguredCryptoPayments } from '../utils/crypto-payments.ts';
+import { getConfiguredCryptoPayments, getCryptoExplorerUrl } from '../utils/crypto-payments.ts';
 import { site } from '../utils/site.ts';
 
 const configuredPayments = getConfiguredCryptoPayments(site.cryptoPayments);
 const payments: CryptoPaymentDisplay[] = await Promise.all(
   configuredPayments.map(async (payment) => ({
     ...payment,
+    explorerUrl: getCryptoExplorerUrl(payment),
     qrDataUrl: await QRCode.toDataURL(payment.address, {
       errorCorrectionLevel: 'M',
       margin: 2,
@@ -27,7 +28,7 @@ const payments: CryptoPaymentDisplay[] = await Promise.all(
   title="Support Everett Labs"
   description="Support Everett Labs open-source work with cryptocurrency."
 >
-  <section class="mx-auto max-w-6xl px-4 py-24 text-center sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 lg:px-8">
     <p class="font-mono text-xs tracking-widest text-accent-cyan">SUPPORT THE LAB</p>
     <h1 class="mt-4 text-4xl font-bold tracking-tight text-text-primary sm:text-5xl">
       Support Everett Labs

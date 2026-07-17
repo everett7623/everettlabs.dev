@@ -34,7 +34,7 @@
 ### 当前质量缺口
 
 - 其余项目仍需补充来源可验证的本地截图；禁止使用虚构界面代替。
-- 生产 HTTPS Lighthouse 在本机仍受系统级 AdGuard 页面注入和 Windows `chrome-launcher` 临时目录文件锁影响，无法得到可作为验收依据的干净四分类报告；已获得的生产指标为 Accessibility 100、SEO 100、FCP 1.1 秒、LCP 1.7 秒，但 Performance 与 Best Practices 总分不得标记为通过。
+- 干净 Ubuntu CI 已完成生产 HTTPS Lighthouse，确认当前线上版本的首页与 Linketry 均为 Performance 99、Accessibility 100、Best Practices 93、SEO 100；唯一失败项是生产响应头 CSP 阻止 Astro islands 的内联运行时。修复已在本地完成并通过 Cloudflare 本地运行验证，但尚未部署，因此生产四分类仍不能标记为通过。
 
 ### 2026-07-17 收尾范围
 
@@ -44,6 +44,31 @@
 - [x] 重新运行 `validate:static`、`typecheck`、`build`、`test:e2e` 和 `audit:lighthouse`。
 - [x] 只读核对 Cloudflare Builds、Web Analytics 与 Always Use HTTPS 当前状态；Web Analytics 已从生产 DOM 验证，HTTP 复测确认仍返回 200，Builds 与 HTTPS 设置因 Dashboard 登录态不可用仍阻塞。
 - [x] 回写本轮真实验证结果、生产状态和最终剩余阻塞。
+
+## 2026-07-17 同步与生产验收续作
+
+### 范围
+
+- [x] 核对本地工作区、`main`、`origin/main` 与规范远程，并在保留本地文件的前提下恢复 Syncthing 同步期间缺失的 Git 对象。
+- [x] 执行 `git pull --ff-only origin main`，确认本地与远程均位于 `f0c97e3`，工作区在本地同步完成后保持干净。
+- [x] 手动触发 GitHub Actions `PR Validation`，在干净 Ubuntu 环境运行生产 HTTPS Lighthouse。
+- [x] 根据工作流真实结果更新生产 Lighthouse 验收状态，不降低四分类 0.95 门槛。
+- [x] 在现有认证能力范围内继续核对 Cloudflare Builds 与 Always Use HTTPS；当前 Wrangler OAuth 账号与已部署 Worker 的账号不一致，需要切换到正确 Cloudflare 账号后继续。
+
+### 验收标准
+
+- GitHub Actions 必须在 `main` 当前提交上完成静态校验、类型检查、Playwright、本地 Lighthouse 和生产 Lighthouse。
+- 生产首页与 Linketry 详情的 Performance、Accessibility、Best Practices、SEO 均不得低于 0.95，且无控制台错误。
+- Always Use HTTPS 只有在 `http://everettlabs.dev` 返回 `301` 或 `308`，且 `Location` 指向 HTTPS 时才能标记为通过。
+
+### 实际结果
+
+- `[失败，已定位]` GitHub Actions `29548528016` 在提交 `f0c97e3` 上完成静态校验、类型检查、Playwright 和本地 Lighthouse，仅生产 Lighthouse 失败。两条生产路由均为 Performance 99、Accessibility 100、Best Practices 93、SEO 100；`errors-in-console` 确认响应头 CSP 阻止 Astro 生成的两段 islands 运行时脚本。
+- `[通过]` 启用 Astro 7 原生 CSP hash 生成，将 `frame-ancestors` 等响应头专属指令保留在 Cloudflare `_headers`，并移除首页唯一的内联样式属性；安全契约同时拒绝重复的响应头资源策略和新的内联样式属性。
+- `[通过]` `npm run validate:static`：11 个测试文件、53 项测试全部通过；`npm run typecheck`：0 errors、0 warnings，保留 2 条既有上游提示；无 `GITHUB_TOKEN` 的 `npm run build` 生成 13 个静态页面。
+- `[通过]` Playwright 使用已安装的完整 Chromium 完成 5 项、按设备范围跳过 3 项；默认 headless-shell 缺失且 CDN 安装在 5 分钟后超时，因此未把默认 `npm run test:e2e` 的浏览器启动失败记录为代码通过。
+- `[通过]` Wrangler 4.111.0 `deploy --dry-run` 成功读取 55 个静态资源；`wrangler dev` 下响应头和 CSP meta 同时生效，首页终端与命令面板 hydration 正常，浏览器控制台错误和 CSP 错误均为 0。
+- `[阻塞]` 当前 Wrangler OAuth 只列出账号 `b0fa092c63382065751fc97b15171f51`，而已部署 `everettlabs-dev` 的版本请求使用账号 `4cc48c9e3b9f084844f4485d51899e36` 并返回 API 认证错误 `10000`。在切换到正确账号前不部署、不修改 Zone 设置，也不把本地修复记为生产通过。
 
 ## 本轮开发范围
 
@@ -63,7 +88,7 @@
 - 当前目录已初始化 Git 并推送公开仓库 `everett7623/everettlabs.dev`；Cloudflare Builds 的 `main` 生产构建和 PR 预览仍需在 Dashboard 完成仓库连接。应用内浏览器没有 Cloudflare 登录态，当前 Chrome 配置也未安装 ChatGPT Chrome Extension，无法代为完成 Dashboard 操作。
 - `http://everettlabs.dev` 当前返回 200 而非重定向；需在 Cloudflare Zone Dashboard 启用 Always Use HTTPS 后复测。
 - 公开仓库复核确认 LinkVitals、Nezha Cleaner、DistroLift、VPS Scripts、NodeLoc Bench 没有可验证界面截图，GloboKit 仅有项目插画；Linketry 仓库存在应用资源但未找到可直接复用的已发布界面截图。不得使用虚构媒体。
-- 生产 Lighthouse 会被本机 AdGuard 向主文档注入的两段内联脚本污染，严格 CSP 正确阻止了这些脚本；直接审计还会触发 Windows `chrome-launcher` 清理临时目录的 `EPERM`。需在无注入的 Linux/CI 环境运行 `npm run audit:lighthouse:production` 完成最终四分类 95+ 验收。
+- 生产 Lighthouse 已在干净 Linux CI 运行并暴露真实 CSP 回归；本地修复尚未部署。需先切换到拥有 `everettlabs-dev` 与 `everettlabs.dev` Zone 的 Cloudflare 账号，部署后重新运行 `npm run audit:lighthouse:production`，完成最终四分类 95+ 验收。
 
 ## 当前继续推进范围
 
@@ -160,6 +185,9 @@
 - 2026-07-17：最终 `validate:static` 为 10 个测试文件、43 项测试通过；`typecheck` 0 errors，`test:e2e` 5 项通过、3 项按设备范围跳过，无 `GITHUB_TOKEN` 的构建生成 13 个静态页面。
 - 2026-07-17：生产 Lighthouse 在本机受到系统代理/AdGuard 主文档注入与 Windows 临时目录文件锁污染；未降低 0.95 门槛，也未把受污染报告标记为通过。已验证的生产指标为 Accessibility 100、SEO 100、FCP 1.1 秒、LCP 1.7 秒，最终四分类报告等待干净 Linux/CI 环境复测。
 - 2026-07-17：GitHub Actions 的 `workflow_dispatch` 现会额外运行 `audit:lighthouse:production`，为无本机注入的 Linux 环境提供最终生产验收入口；PR 和 `main` 常规验证仍使用确定性的本地生产构建审计。
+- 2026-07-17：手动运行 GitHub Actions `29548528016`；干净 Ubuntu 环境确认线上首页与 Linketry 为 99/100/93/100，Best Practices 唯一失败来自响应头 CSP 阻止 Astro islands 内联运行时，不再归因于本机 AdGuard。
+- 2026-07-17：改用 Astro 7 原生 CSP hash，Cloudflare 响应头只保留响应头专属指令；首页内联网格样式迁移到共享 CSS，Markdown 高亮切换为 CSP 兼容的 Prism；`.wrangler/**` 纳入 ESLint 生成物忽略。静态验收 53 项、类型检查、构建、完整 Chromium E2E、Wrangler dry-run 和本地 Cloudflare 浏览器验证通过。
+- 2026-07-17：当前 Wrangler OAuth 账号与已部署 Worker 账号不一致，版本 API 返回认证错误 `10000`；未部署本地 CSP 修复，等待切换正确 Cloudflare 账号后继续生产验收。
 
 ## 2026-07-17 Coffee 加密货币支持
 
@@ -186,7 +214,32 @@
 
 ### 已知阻塞
 
-- 三个公开收款地址尚未提供；在地址写入前，生产页面不会显示任何加密货币支付卡片，也无法完成真实地址下的复制按钮最终浏览器验收。
+- `[已解除]` 2026-07-17 已收到并逐字符核对四个公开收款地址，真实地址下的页面渲染、复制按钮和移动端布局均已完成浏览器验收。
+
+### 2026-07-17 公开地址上线与 TON 扩展
+
+#### 范围与现状
+
+- 用户通过本地文本和四张 Binance 充值截图提供了四个公开收款地址；本轮只处理公开地址，不读取、请求或存储任何私钥、助记词、验证码或 API 密钥。
+- 在原三种方式基础上启用可选的 `USDT · The Open Network (TON)`，最终保持四个入口，不扩展 ERC20、BSC、SOL、DOGE、LTC 等重复或低优先级网络。
+- 当前 BTC 校验只接受 `bc1` 地址，不能接受本轮提供的 `1...` 主网地址；页面也缺少区块浏览器入口，四张卡片需要调整为更稳定的双列布局。
+- 当前地址来自交易所充值页面，存在交易所变更或停用充值地址的维护风险；上线后需要把页面地址视为公开配置，并在交易所侧地址变化时同步更新和复验。
+
+#### 验收标准
+
+- [x] 四个地址逐字符匹配用户提供的文本，资产与网络严格成对展示，构建时拒绝明显错网或错格式地址。
+- [x] 二维码继续在构建时从完整地址本地生成，不复用外部截图或热链资源。
+- [x] 每张卡片提供完整地址、复制状态、对应地址的区块浏览器入口和明确的网络警告。
+- [x] 桌面端使用稳定的双列卡片布局；移动端无横向溢出，交互保持键盘可达和至少 44 × 44px 触控目标。
+- [x] 更新单元与浏览器测试，并运行静态校验、类型检查、无 `GITHUB_TOKEN` 构建和 Coffee 桌面/移动端视觉验收。
+
+#### 验证结果
+
+- `[通过]` `npm run validate:static`：11 个测试文件、55 项测试全部通过，覆盖四个真实地址、四种网络格式、区块浏览器映射、二维码生成和旧支付字段隔离。
+- `[通过]` `npm run typecheck`：0 errors、0 warnings，保留项目原有 2 条上游兼容提示。
+- `[通过]` 无 `GITHUB_TOKEN` 的 `npm run build`：保留 GitHub 快照并生成 13 个静态页面，Coffee 四个二维码均在构建时本地生成。
+- `[通过]` `npx playwright test --headed --workers=1`：7 项通过、3 项按设备范围跳过；桌面与移动 Chromium 均验证四个完整地址的真实剪贴板写入，移动端无横向溢出。
+- `[通过]` 1440 × 1000 桌面和 Pixel 5 全页截图视觉复核：二维码非空，桌面 2 × 2、移动端单列，完整地址、操作按钮和警告均无重叠或裁切。
 
 ## 2026-07-17 GitHub 首次发布
 

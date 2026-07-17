@@ -1,4 +1,4 @@
-import { Check, Copy, TriangleAlert } from 'lucide-react';
+import { Check, Copy, ExternalLink, TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
 import type { CryptoPaymentDisplay } from '../types/crypto-payment.ts';
 
@@ -25,7 +25,7 @@ export default function CryptoPaymentList({ payments }: Props) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2">
       {payments.map((payment) => {
         const status = copyStatuses[payment.id] ?? 'idle';
 
@@ -57,19 +57,35 @@ export default function CryptoPaymentList({ payments }: Props) {
               {payment.address}
             </code>
 
-            <button
-              type="button"
-              onClick={() => void copyAddress(payment)}
-              className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-accent-violet px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-violet/90"
-              aria-label={`Copy ${payment.asset} ${payment.network} receiving address`}
-            >
-              {status === 'copied' ? (
-                <Check aria-hidden="true" size={17} />
-              ) : (
-                <Copy aria-hidden="true" size={17} />
-              )}
-              {status === 'copied' ? 'Copied' : status === 'failed' ? 'Retry copy' : 'Copy address'}
-            </button>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => void copyAddress(payment)}
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-accent-violet px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-violet/90"
+                aria-label={`Copy ${payment.asset} ${payment.network} receiving address`}
+              >
+                {status === 'copied' ? (
+                  <Check aria-hidden="true" size={17} />
+                ) : (
+                  <Copy aria-hidden="true" size={17} />
+                )}
+                {status === 'copied'
+                  ? 'Copied'
+                  : status === 'failed'
+                    ? 'Retry copy'
+                    : 'Copy address'}
+              </button>
+              <a
+                href={payment.explorerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-text-secondary transition hover:border-text-muted hover:text-text-primary"
+                aria-label={`View ${payment.asset} ${payment.network} address on explorer`}
+              >
+                <ExternalLink aria-hidden="true" size={17} />
+                View address
+              </a>
+            </div>
 
             <p
               role="status"
