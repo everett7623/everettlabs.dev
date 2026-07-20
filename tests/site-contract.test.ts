@@ -16,10 +16,10 @@ function projectRepositories(): string[] {
 }
 
 describe('project content contract', () => {
-  it('contains eight project entries from the approved whitelist', () => {
+  it('contains one project entry for every approved repository', () => {
     const repositories = projectRepositories();
 
-    expect(repositories).toHaveLength(8);
+    expect(repositories).toHaveLength(approvedRepositories.length);
     expect(new Set(repositories).size).toBe(repositories.length);
     expect(
       repositories.every((repository) =>
@@ -47,6 +47,7 @@ describe('command palette contract', () => {
     const required = [
       'linketry',
       'linkvitals',
+      'citeoryx',
       'favgrove',
       'globokit',
       'vps-scripts',

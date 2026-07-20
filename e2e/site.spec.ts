@@ -18,6 +18,22 @@ test('renders the homepage and a project detail page', async ({ page }) => {
   );
 });
 
+test('renders Citeoryx in the product catalog and project detail page', async ({ page }) => {
+  await page.goto('/projects');
+  const products = page
+    .getByRole('heading', { name: 'Products' })
+    .locator('xpath=ancestor::section');
+  await expect(products.getByRole('link', { name: /Citeoryx/ })).toBeVisible();
+
+  await page.goto('/projects/citeoryx');
+  await expect(page.getByRole('heading', { name: 'Citeoryx', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/everett7623/Citeoryx',
+  );
+  await expect(page.getByText('GPL-2.0-or-later', { exact: true })).toBeVisible();
+});
+
 test('renders and copies the four approved cryptocurrency addresses', async ({ context, page }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {
     origin: 'http://127.0.0.1:4322',
@@ -116,7 +132,14 @@ test('opens the command palette from the mobile header control', async ({ page, 
 test('avoids horizontal overflow on key mobile routes', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'Mobile layout is covered by the mobile browser project.');
 
-  for (const route of ['/', '/projects', '/projects/linketry', '/about', '/coffee']) {
+  for (const route of [
+    '/',
+    '/projects',
+    '/projects/linketry',
+    '/projects/citeoryx',
+    '/about',
+    '/coffee',
+  ]) {
     await page.goto(route);
     await expect
       .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth))

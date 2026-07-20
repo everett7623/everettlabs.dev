@@ -169,7 +169,7 @@ npm install
 
 验证规则：
 
-- `validate:projects` 必须确认 8 个公开项目均在批准白名单内。
+- `validate:projects` 必须确认 9 个公开项目均在批准白名单内。
 - `typecheck` 必须使用当前 Astro 和 TypeScript 真实类型，不允许跳过依赖错误。
 - `test` 至少覆盖项目内容契约、命令定义和 GitHub 快照合并。
 - `build` 必须在没有 `GITHUB_TOKEN` 时使用现有快照成功完成。

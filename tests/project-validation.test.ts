@@ -16,7 +16,7 @@ function projectDocuments() {
 }
 
 describe('project content validation', () => {
-  it('accepts the eight current project documents', () => {
+  it('accepts the current approved project documents', () => {
     expect(validateProjectDocuments(projectDocuments(), approvedRepositories)).toEqual([]);
   });
 

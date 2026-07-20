@@ -1,4 +1,4 @@
-下面是更新后的 **Everett Labs 官网开发文档 v1.0**。这版已经把 8 个 GitHub 项目和 `seedloc.com` 纳入首发范围，同时区分原创项目、基础设施工具和社区维护项目，避免自动混入机场相关仓库。
+下面是更新后的 **Everett Labs 官网开发文档 v1.0**。这版已经把 9 个 GitHub 项目和 `seedloc.com` 纳入首发范围，同时区分原创项目、基础设施工具和社区维护项目，避免自动混入机场相关仓库。
 
 # Everett Labs Developer Website
 
@@ -112,7 +112,7 @@ The initial release must include:
     
 - Projects index
     
-- Eight GitHub project pages
+- Nine GitHub project pages
     
 - Seedloc writing section
     
@@ -274,6 +274,8 @@ These are the main Everett Labs product-style projects:
 3. FavGrove
     
 4. GloboKit
+
+5. Citeoryx
     
 
 ## 5.2 Infrastructure Utilities
@@ -446,7 +448,43 @@ International Operations
 
 ---
 
-## 6.5 VPS Scripts
+## 6.5 Citeoryx
+
+**Role:** Curated product
+
+**Category:** WordPress plugin
+
+**Status:** Active
+
+**Ownership:** Original
+
+**Repository:** `everett7623/Citeoryx`
+
+### Short Description
+
+> A WordPress content health and AI discoverability engine for inventory, issue prioritization, optimization, and lifecycle monitoring.
+
+### Extended Description
+
+> Citeoryx builds an ongoing inventory of WordPress content, evaluates health and opportunity signals, and turns detected issues into a prioritized optimization workflow.
+
+It complements Rank Math, Yoast SEO, AIOSEO, and SEOPress by reading their public data without duplicating their front-end metadata. Optional integrations include Google Search Console and AI providers.
+
+### Tags
+
+```text
+WordPress
+PHP
+React
+Content Health
+SEO
+AI Discoverability
+Open Source
+```
+
+---
+
+## 6.6 VPS Scripts
 
 **Role:** Infrastructure utility  
 **Category:** Linux toolkit  
@@ -487,7 +525,7 @@ Automation
 
 ---
 
-## 6.6 Nezha Cleaner
+## 6.7 Nezha Cleaner
 
 **Role:** Infrastructure utility  
 **Category:** Linux maintenance  
@@ -528,7 +566,7 @@ Automation
 
 ---
 
-## 6.7 DistroLift
+## 6.8 DistroLift
 
 **Role:** Infrastructure utility  
 **Category:** Operating system maintenance  
@@ -571,7 +609,7 @@ Automation
 
 ---
 
-## 6.8 NodeLoc Bench
+## 6.9 NodeLoc Bench
 
 **Role:** Community utility  
 **Category:** Server benchmarking  
@@ -614,7 +652,7 @@ COMMUNITY
 
 ---
 
-## 6.9 Seedloc
+## 6.10 Seedloc
 
 **Role:** Writing platform  
 **Category:** External blog  
@@ -1111,6 +1149,7 @@ Go to Home
 Browse Projects
 Open Linketry
 Open LinkVitals
+Open Citeoryx
 Open FavGrove
 Open GloboKit
 Open VPS Scripts
@@ -2030,7 +2069,7 @@ The website must prioritize:
 
 1. Linketry as the flagship system.
     
-2. FavGrove, LinkVitals, and GloboKit as developed products.
+2. FavGrove, LinkVitals, and GloboKit as developed featured products, with Citeoryx in the curated product catalog.
     
 3. Linux utilities as a separate infrastructure collection.
     
@@ -2050,4 +2089,4 @@ The final experience should communicate:
 > This is not a template portfolio.  
 > This is an active software laboratory.
 
-这版最重要的调整是：**不再把所有项目混成同一种卡片**。Linketry 等 4 个项目负责建立产品品牌，4 个 Linux 工具负责体现技术深度，Seedloc 单独承担内容与写作入口。Cloudflare 原生 Git 集成已经能提供推送构建、版本和预览 URL，所以 Everett Labs 不需要为了 Preview 再维护一套 Vercel 部署。([Cloudflare Docs](https://developers.cloudflare.com/workers/ci-cd/builds/ "Builds · Cloudflare Workers docs"))
+这版最重要的调整是：**不再把所有项目混成同一种卡片**。Linketry 等 4 个 Featured 项目负责建立产品品牌，Citeoryx 进入精选产品目录，4 个 Linux 工具负责体现技术深度，Seedloc 单独承担内容与写作入口。Cloudflare 原生 Git 集成已经能提供推送构建、版本和预览 URL，所以 Everett Labs 不需要为了 Preview 再维护一套 Vercel 部署。([Cloudflare Docs](https://developers.cloudflare.com/workers/ci-cd/builds/ "Builds · Cloudflare Workers docs"))

@@ -11,7 +11,7 @@ const featured = allProjects
   .filter((p) => p.data.featured)
   .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
 const utilities = allProjects
-  .filter((p) => !p.data.featured)
+  .filter((p) => p.data.category !== 'product')
   .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
 ---
 

@@ -17,6 +17,7 @@ export const commands: CommandItem[] = [
   { id: 'coffee', label: 'Buy Me a Coffee', href: '/coffee' },
   { id: 'linketry', label: 'Open Linketry', href: '/projects/linketry' },
   { id: 'linkvitals', label: 'Open LinkVitals', href: '/projects/linkvitals' },
+  { id: 'citeoryx', label: 'Open Citeoryx', href: '/projects/citeoryx' },
   { id: 'favgrove', label: 'Open FavGrove', href: '/projects/favgrove' },
   { id: 'globokit', label: 'Open GloboKit', href: '/projects/globokit' },
   { id: 'vps-scripts', label: 'Open VPS Scripts', href: '/projects/vps-scripts' },

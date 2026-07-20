@@ -51,6 +51,13 @@ const expectedProjects: Record<string, ExpectedProject> = {
     featured: 'true',
     homeOrder: '4',
   },
+  citeoryx: {
+    repository: 'everett7623/Citeoryx',
+    category: 'product',
+    ownership: 'original',
+    featured: 'false',
+    homeOrder: '5',
+  },
   'vps-scripts': {
     repository: 'everett7623/vps_scripts',
     category: 'infrastructure',
@@ -122,7 +129,7 @@ export function validateProjectDocuments(
   if (documents.length !== Object.keys(expectedProjects).length) {
     issues.push({
       file: 'src/content/projects',
-      message: `Expected 8 project documents, found ${documents.length}.`,
+      message: `Expected ${Object.keys(expectedProjects).length} project documents, found ${documents.length}.`,
     });
   }
 

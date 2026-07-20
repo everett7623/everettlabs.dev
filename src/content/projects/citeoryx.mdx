@@ -1,0 +1,47 @@
+---
+name: Citeoryx
+slug: citeoryx
+repository: everett7623/Citeoryx
+category: product
+projectType: wordpress-plugin
+status: active
+ownership: original
+featured: false
+homeOrder: 5
+license: GPL-2.0-or-later
+tags:
+  - WordPress
+  - PHP
+  - React
+  - Content Health
+  - SEO
+  - AI Discoverability
+  - Open Source
+accent: cyan
+summary: A WordPress content health and AI discoverability engine for inventory, issue prioritization, optimization, and lifecycle monitoring.
+---
+
+## What it solves
+
+Large WordPress sites lose track of aging, competing, and underperforming content. Citeoryx builds a content inventory, evaluates health signals, and turns detected issues and opportunities into a prioritized optimization workflow.
+
+## Who it is for
+
+Publishers, content teams, and SEO practitioners who need ongoing visibility into content quality and performance instead of another one-time audit.
+
+## Why it exists
+
+Conventional SEO plugins focus on publishing metadata. Citeoryx complements them by tracking the content lifecycle: what exists, what needs attention, what changed, and whether an optimization improved results.
+
+## Key capabilities
+
+- Incremental content inventory and health scanning
+- Issue detection, health scoring, and opportunity prioritization
+- AI discoverability readiness analysis and guided optimization
+- Read-only adapters for Rank Math, Yoast SEO, AIOSEO, and SEOPress data
+- Optional Google Search Console and AI provider integrations
+- REST API, WordPress admin workspace, and WP-CLI scanning
+
+## Engineering notes
+
+Citeoryx is a GPL-licensed WordPress plugin for PHP 8.0 and WordPress 6.6 or newer. Its modular PHP application separates domain, application, infrastructure, and integration concerns, while a React-based admin interface consumes the plugin REST API. Background scans are designed to be incremental, resumable, and traceable.
