@@ -295,3 +295,16 @@
 - 首次运行提示旧版官方 Actions 使用已弃用的 Node.js 20；已根据官方最新 release 将 checkout、setup-node 和 upload-artifact 升级到 `v7`，等待后续提交复测。
 - `8556031` 已推送并通过升级后的第二次 `PR Validation`；静态校验、类型检查、Playwright 和 Lighthouse 全部通过，Node.js 20 弃用注解已消失。
 - 最终文档提交 `6918eb6` 已推送，第三次 `PR Validation` 在提交 `6918eb61136c6cb2a792bb44f46a40c1caeef6b6` 上通过；本地 `main`、`origin/main` 与远程引用完全一致，工作树在发布完成时保持干净。
+
+## 2026-07-25 项目媒体复核
+
+- 重新读取 9 个批准仓库默认分支的完整文件树。FavGrove 仍是唯一提供真实界面截图的项目，继续使用
+  已接入并固定来源的 `manager-1280x800.png`。
+- GloboKit 当前 `main` 提交 `08a62dd93ff0aad0ef6ecb59d0e4684d3e9e97da` 新增了
+  `public/hero-trade-day.png` 与 `public/hero-trade-night.png`。视觉核验确认前者是贸易主题的
+  说明性插画，不是公开产品界面，不能作为项目截图接入。
+- Linketry 仅命中自身仓库的任务文档与 demo 配置；Citeoryx、LinkVitals、Nezha Cleaner、
+  DistroLift、VPS Scripts 和 NodeLoc Bench 均未发现 PNG、JPEG、WebP、AVIF、GIF 或已命名的
+  可验证界面媒体。
+- 结论：不新增任何项目截图；“其余项目需来源可验证的真实界面截图”的质量缺口保持不变，禁止以
+  插画、生成图片或重建界面替代。
