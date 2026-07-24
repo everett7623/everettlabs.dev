@@ -71,6 +71,7 @@ function collectLinks(projects: readonly ProjectLinkData[]): SiteLink[] {
     ['site.github', site.github],
     ['site.seedloc', site.seedloc],
     ['site.telegram', site.telegram],
+    ['site.koFi', site.koFi],
   ] as const;
 
   return [

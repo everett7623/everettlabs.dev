@@ -1550,7 +1550,11 @@ Route:
 /coffee
 ```
 
-The page supports exactly these asset and network pairs:
+The page supports the official Everett Labs Ko-fi page:
+
+- `https://ko-fi.com/everettlabs`
+
+It also supports exactly these asset and network pairs:
 
 - USDT · TRON (TRC20)
 
@@ -1560,8 +1564,10 @@ The page supports exactly these asset and network pairs:
 
 - USDT · The Open Network (TON)
 
-Do not add an external Buy Me a Coffee service, GitHub Sponsors, WeChat Pay, Alipay, or additional
-crypto networks without a new explicit product decision.
+Ko-fi is the only approved external support service. Link directly to the official profile with a
+normal HTTPS anchor. Do not embed Ko-fi scripts, iframes, remote images, cookies, or new analytics
+events. Do not add GitHub Sponsors, WeChat Pay, Alipay, another external support service, or
+additional crypto networks without a new explicit product decision.
 
 Each configured method must display the asset, full network name, complete public address, local QR
 code, copy action, matching block explorer, and an irreversible wrong-network warning. QR codes are
@@ -1570,13 +1576,16 @@ copied from an exchange screenshot.
 
 Do not expose unnecessary personal payment information or any wallet secret.
 
-The current implementation may use user-confirmed Binance public deposit addresses. Do not replace
-them with another wallet or payment provider without an explicit product decision. Any address
-change must re-verify the asset, network, complete address, generated QR code, and explorer target.
+The cryptocurrency implementation may use user-confirmed Binance public deposit addresses. Ko-fi
+does not replace those addresses. Do not replace them with another wallet or payment provider
+without an explicit product decision. Any address change must re-verify the asset, network,
+complete address, generated QR code, and explorer target.
 
 ## 18.3 Configuration
 
 ```ts
+export const koFi = "https://ko-fi.com/everettlabs";
+
 export const cryptoPayments = [
   { id: "usdt-trc20", address: "" },
   { id: "usdc-base", address: "" },
@@ -1593,6 +1602,9 @@ matching network validation before the site can build.
 ```text
 Contributions help cover testing, documentation, infrastructure,
 and continued maintenance across Everett Labs projects.
+
+Ko-fi:
+Make a one-time contribution through the official Everett Labs Ko-fi page.
 ```
 
 ---

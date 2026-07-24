@@ -2,6 +2,7 @@
 import QRCode from 'qrcode';
 import Layout from '../layouts/Layout.astro';
 import CryptoPaymentList from '../components/CryptoPaymentList.tsx';
+import KoFiSupportCard from '../components/KoFiSupportCard.astro';
 import type { CryptoPaymentDisplay } from '../types/crypto-payment.ts';
 import { getConfiguredCryptoPayments, getCryptoExplorerUrl } from '../utils/crypto-payments.ts';
 import { site } from '../utils/site.ts';
@@ -26,7 +27,7 @@ const payments: CryptoPaymentDisplay[] = await Promise.all(
 
 <Layout
   title="Buy Me a Coffee"
-  description="Support Everett Labs open-source work with cryptocurrency."
+  description="Support Everett Labs open-source work through Ko-fi or cryptocurrency."
 >
   <section class="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 lg:px-8">
     <p class="font-mono text-xs tracking-widest text-accent-cyan">SUPPORT THE LAB</p>
@@ -38,19 +39,41 @@ const payments: CryptoPaymentDisplay[] = await Promise.all(
       across Everett Labs projects.
     </p>
 
+    <div class="mt-12">
+      <KoFiSupportCard href={site.koFi} />
+    </div>
+
     {
       payments.length > 0 ? (
-        <div class="mt-12">
+        <section class="mt-12" aria-labelledby="crypto-support-heading">
+          <div class="mb-6 text-left">
+            <p class="font-mono text-xs tracking-widest text-accent-cyan">
+              DIRECT ON-CHAIN SUPPORT
+            </p>
+            <h2 id="crypto-support-heading" class="mt-2 text-2xl font-semibold text-text-primary">
+              Cryptocurrency
+            </h2>
+          </div>
           <CryptoPaymentList payments={payments} client:load />
           <p class="mx-auto mt-8 max-w-2xl text-sm leading-6 text-text-muted">
             On-chain transfers are public and irreversible. Verify both the asset and network before
             sending.
           </p>
-        </div>
+        </section>
       ) : (
-        <p class="mt-12 font-mono text-sm text-text-muted">
-          Cryptocurrency payment details are not currently published.
-        </p>
+        <section class="mt-12" aria-labelledby="crypto-support-heading">
+          <div class="text-left">
+            <p class="font-mono text-xs tracking-widest text-accent-cyan">
+              DIRECT ON-CHAIN SUPPORT
+            </p>
+            <h2 id="crypto-support-heading" class="mt-2 text-2xl font-semibold text-text-primary">
+              Cryptocurrency
+            </h2>
+            <p class="mt-4 font-mono text-sm text-text-muted">
+              Cryptocurrency payment details are not currently published.
+            </p>
+          </div>
+        </section>
       )
     }
   </section>

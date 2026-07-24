@@ -40,5 +40,6 @@ export const site = {
   github: 'https://github.com/everett7623',
   seedloc: 'https://seedloc.com',
   telegram: 'https://t.me/jensfrank',
+  koFi: 'https://ko-fi.com/everettlabs',
   cryptoPayments,
 };

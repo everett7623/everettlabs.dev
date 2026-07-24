@@ -119,7 +119,8 @@ describe('crypto payment configuration', () => {
     ]);
   });
 
-  it('keeps exactly the four approved public asset and network pairs', () => {
+  it('keeps the approved Ko-fi URL and exactly four public asset and network pairs', () => {
+    expect(site.koFi).toBe('https://ko-fi.com/everettlabs');
     expect(site.cryptoPayments.map(({ asset, network }) => `${asset}:${network}`)).toEqual([
       'USDT:TRON (TRC20)',
       'USDC:Base Network',

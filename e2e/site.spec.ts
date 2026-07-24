@@ -34,13 +34,21 @@ test('renders Citeoryx in the product catalog and project detail page', async ({
   await expect(page.getByText('GPL-2.0-or-later', { exact: true })).toBeVisible();
 });
 
-test('renders and copies the four approved cryptocurrency addresses', async ({ context, page }) => {
+test('renders Ko-fi and copies the four approved cryptocurrency addresses', async ({
+  context,
+  page,
+}) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {
     origin: 'http://127.0.0.1:4322',
   });
   await page.goto('/coffee');
   await expect(page).toHaveTitle('Buy Me a Coffee — Everett Labs');
   await expect(page.getByRole('heading', { level: 1, name: 'Buy Me a Coffee' })).toBeVisible();
+  await expect(page.locator('[data-support-method="ko-fi"]')).toHaveCount(1);
+  await expect(
+    page.getByRole('link', { name: 'Support Everett Labs on Ko-fi (opens in a new tab)' }),
+  ).toHaveAttribute('href', 'https://ko-fi.com/everettlabs');
+  await expect(page.getByRole('img', { name: 'Support Everett Labs on Ko-fi' })).toBeVisible();
 
   const payments = [
     {
@@ -65,7 +73,7 @@ test('renders and copies the four approved cryptocurrency addresses', async ({ c
     },
   ];
 
-  await expect(page.locator('main article')).toHaveCount(payments.length);
+  await expect(page.locator('[data-support-method="cryptocurrency"]')).toHaveCount(payments.length);
   await expect(page.getByRole('img', { name: /receiving address QR code/ })).toHaveCount(
     payments.length,
   );

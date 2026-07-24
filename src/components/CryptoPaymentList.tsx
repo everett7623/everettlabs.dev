@@ -33,6 +33,7 @@ export default function CryptoPaymentList({ payments }: Props) {
           <article
             key={payment.id}
             className="flex min-w-0 flex-col rounded-lg border border-border bg-surface p-5 text-left"
+            data-support-method="cryptocurrency"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
