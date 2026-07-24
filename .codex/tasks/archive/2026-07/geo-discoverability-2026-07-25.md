@@ -70,3 +70,15 @@
 - `[已修复]` 首次浏览器检查发现 Astro 目录路由 canonical 带尾斜杠，而 JSON-LD 与
   `llms.txt` 使用无尾斜杠 URL；统一 canonical 后复测通过。
 - `[文档]` Citeoryx、Ko-fi 和本任务均已完成并归档；v1 质量与项目清理任务继续保留为活跃任务。
+
+## 发布结果
+
+- `[通过]` 提交 `bf3850b` 已推送到 `main`；GitHub Actions `30112428837` 在同一提交上完成
+  静态校验、类型检查、Playwright 与本地 Lighthouse。
+- `[通过]` Cloudflare Builds 将同一推送部署为 Worker 版本 15
+  `4ba9172b-76c9-4f26-a1a5-9fa43de4857d`，当前承载 100% 生产流量。
+- `[通过]` 生产 `/robots.txt` 与 `/llms.txt` 均为 200；OAI 搜索爬虫、sitemap、9 个批准项目链接
+  和禁用内容边界均符合契约。
+- `[通过]` 生产 `/projects` 为 200，canonical 为 `https://everettlabs.dev/projects`，snippet
+  控制完整，JSON-LD 为含 9 项的 `CollectionPage`；HSTS、CSP 与 nosniff 响应头保持有效。
+- `[通过]` `http://everettlabs.dev` 返回 301，目标为 `https://everettlabs.dev/`。

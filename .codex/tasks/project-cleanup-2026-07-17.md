@@ -35,7 +35,7 @@
 - [x] 已完成任务状态无过时阻塞，并移动到按月份组织的归档目录。
 - [x] `validate:size`、`validate:static`、`typecheck` 和无 `GITHUB_TOKEN` 的 `build` 通过。
 - [ ] 验证后再次清理可再生输出，Git 差异只包含文档整理和任务移动。
-- [ ] 提交推送后 GitHub Actions 与 Cloudflare Builds 均成功。
+- [x] 提交推送后 GitHub Actions 与 Cloudflare Builds 均成功。
 
 ## TODO
 
@@ -44,7 +44,7 @@
 - [x] 移动已完成任务。
 - [ ] 删除本地生成物并复核 Git 差异。
 - [x] 运行验证并记录真实结果。
-- [ ] 经用户授权后提交、推送并等待自动验证与部署。
+- [x] 经用户授权后提交、推送并等待自动验证与部署。
 
 ## 当前阻塞
 
@@ -58,3 +58,5 @@
 - `[通过]` `npm run validate:static`：13 个测试文件、70 项测试全部通过。
 - `[通过]` `npm run typecheck`：0 errors；保留结构化数据脚本和 `React.FormEvent` 的既有提示。
 - `[通过]` 未设置 `GITHUB_TOKEN` 的 `npm run build`：保留快照并生成 14 个静态页面。
+- `[通过]` 整理与 GEO 提交 `bf3850b` 已推送；GitHub Actions `30112428837` 成功，Cloudflare
+  Worker 版本 15 `4ba9172b-76c9-4f26-a1a5-9fa43de4857d` 已承载 100% 生产流量。
