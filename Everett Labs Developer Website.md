@@ -137,6 +137,8 @@ The initial release must include:
 - Open Graph images
     
 - Sitemap and robots configuration
+
+- Generative-search discovery contract and curated `llms.txt`
     
 - Cloudflare deployment
     
@@ -1407,6 +1409,7 @@ everettlabs.dev/
 │   ├── _headers
 │   ├── _redirects
 │   ├── favicon.svg
+│   ├── llms.txt
 │   ├── manifest.webmanifest
 │   ├── robots.txt
 │   └── projects/
@@ -1414,6 +1417,7 @@ everettlabs.dev/
 │       ├── linkvitals/
 │       ├── favgrove/
 │       ├── globokit/
+│       ├── citeoryx/
 │       ├── vps-scripts/
 │       ├── nezha-cleaner/
 │       ├── distrolift/
@@ -1647,6 +1651,8 @@ Every page requires:
 - Twitter card
     
 - Structured data where appropriate
+
+- Indexing and snippet controls appropriate to the route
     
 
 ## 19.3 Open Graph
@@ -1677,6 +1683,8 @@ Use:
 - `Organization` or `Person` for Everett Labs
     
 - `SoftwareApplication` for product pages
+
+- `CollectionPage` and `ItemList` for the Projects index
     
 - `WebSite` for the homepage
     
@@ -1684,6 +1692,40 @@ Use:
     
 
 Do not use review ratings or fabricated user counts.
+
+Use stable `@id` values to connect the Everett Labs `Organization`, the main `WebSite`, public
+pages, and project entities. Structured data must describe content that is also available to users
+in the rendered HTML.
+
+## 19.5 Generative Search Discoverability
+
+GEO in this project means making accurate public content discoverable and citable by generative
+search systems. It is not a separate ranking guarantee or a license to create machine-only content.
+
+Requirements:
+
+- Preserve static, indexable English text for important identity, project, attribution, licensing,
+  and safety information.
+- Keep canonical URLs, internal links, sitemap, Open Graph metadata and JSON-LD aligned with visible
+  content.
+- Explicitly allow `OAI-SearchBot` and ordinary search crawlers to access public routes. Training
+  crawlers such as `GPTBot` are a separate product and privacy decision.
+- Publish `/llms.txt` as a supplemental, human-readable index of Everett Labs, core pages and all
+  approved projects. Treat the format as a community proposal rather than a formal ranking signal.
+- Keep `llms.txt` within the repository whitelist and content safety boundary; project pages and
+  linked repositories remain authoritative.
+- Do not add fabricated FAQ answers, ratings, testimonials, user counts, freshness dates or claims
+  merely to target AI answers.
+
+Google Search AI features use the same foundational SEO requirements as normal Search and do not
+require special AI markup. OpenAI search discovery requires `OAI-SearchBot` access for content to be
+included in summaries and snippets.
+
+References:
+
+- <https://developers.google.com/search/docs/appearance/ai-features>
+- <https://help.openai.com/en/articles/12627856-publishers-and-developers-faq>
+- <https://llmstxt.org/>
 
 ---
 
@@ -1811,14 +1853,16 @@ Do not transmit payment QR interactions or sensitive visitor data.
 {
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run sync:github && astro build",
+    "build": "npm run generate:og && npm run sync:github && astro build",
     "preview": "astro preview",
     "lint": "eslint .",
     "typecheck": "astro check",
-    "test": "vitest run",
+    "test": "vitest run tests",
     "test:e2e": "playwright test",
     "sync:github": "tsx scripts/sync-github.ts",
-    "validate:projects": "tsx scripts/validate-projects.ts"
+    "validate:projects": "tsx scripts/validate-projects.ts",
+    "validate:site": "tsx scripts/validate-site.ts",
+    "validate:static": "npm run lint && npm run validate:projects && npm run validate:site && npm run test"
   }
 }
 ```
@@ -1829,12 +1873,11 @@ Every pull request must run:
 
 ```text
 npm ci
-npm run lint
+npm run validate:static
 npm run typecheck
-npm run validate:projects
-npm run test
 npm run build
 npm run test:e2e
+npm run audit:lighthouse
 ```
 
 ## 23.3 Link Validation
@@ -1852,6 +1895,8 @@ Validate:
 - Telegram
     
 - Coffee links
+
+- `robots.txt`, sitemap and every canonical URL in `llms.txt`
     
 
 A temporary GitHub or external-site failure should warn rather than automatically delete content.
@@ -1864,7 +1909,9 @@ Version 1.0 is complete when:
 
 - The site is entirely English.
     
-- All eight approved projects have individual pages.
+- All nine approved projects have individual pages.
+
+- `robots.txt` permits public search crawling, and `llms.txt` lists all approved project pages.
     
 - Seedloc appears as the official writing channel.
     

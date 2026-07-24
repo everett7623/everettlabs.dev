@@ -12,7 +12,7 @@
 - Cloudflare Web Analytics 由生产平台自动注入，现有 CSP 仅放行其脚本与上报域名。
 - 项目禁止可执行 `is:inline` 脚本，Astro 负责生成哈希 CSP。
 - 用户提供的 GA4 Measurement ID 为公开配置 `G-905QVGHLT6`。
-- Cloudflare Dashboard 仍未登录，Builds 与 Always Use HTTPS 继续保持阻塞。
+- Cloudflare Builds 与 Always Use HTTPS 已在正确账号的认证 Dashboard 会话中完成。
 
 ## 隐私边界
 
@@ -36,12 +36,11 @@
 - [x] 更新 CSP、安全验证、主规格与长期协作约束。
 - [x] 增加分析配置契约测试并运行完整验证。
 - [x] 提交、推送、等待 Actions、部署和验证生产行为。
-- [ ] Dashboard 登录后继续完成 Cloudflare Builds 与 Always Use HTTPS。
+- [x] Dashboard 登录后继续完成 Cloudflare Builds 与 Always Use HTTPS。
 
-## 已知阻塞
+## 阻塞解除
 
-- Cloudflare Dashboard 当前跳转登录页；首次 GitHub Builds 授权和 Zone 设置写入不得使用
-  Wrangler OAuth 凭据代替。
+- Cloudflare Dashboard 已使用正确 Account ID 完成 GitHub Builds 授权和 Zone 设置。
 
 ## 验证结果
 
@@ -59,5 +58,5 @@
 - `[通过]` 使用 `everettlabs-prod` 部署版本 `e031b419-1188-4d6f-8908-8b67586c424f`；
   生产页面动态插入 `https://www.googletagmanager.com/gtag/js?id=G-905QVGHLT6`，该 URL
   返回 `200`，浏览器错误日志为空，桌面 `scrollWidth` 未超过视口。
-- `[未通过]` `http://everettlabs.dev` 仍返回 `200`，Always Use HTTPS 仍需正确 Dashboard
-  会话完成后再验证 `301/308`。
+- `[通过]` `http://everettlabs.dev` 返回 `301` 并指向 `https://everettlabs.dev/`；Cloudflare
+  Builds 已连续完成两次 `main` 自动构建部署。

@@ -18,7 +18,8 @@ const {
   structuredData,
   noindex = false,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.url.origin);
+const canonicalPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
+const canonical = new URL(canonicalPath, site.url);
 const schema =
   structuredData ??
   createPageSchema({
@@ -31,11 +32,19 @@ const schema =
 
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+<meta name="author" content={site.title} />
+<meta
+  name="robots"
+  content={noindex
+    ? 'noindex, nofollow'
+    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+/>
 <link rel="canonical" href={canonical.href} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.title} />
+<meta property="og:locale" content="en_US" />
 <meta property="og:url" content={canonical.href} />
 <meta property="og:image" content={image} />
 <meta name="twitter:card" content="summary_large_image" />

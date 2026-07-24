@@ -2,6 +2,12 @@ interface SiteContractInput {
   siteUrl: string;
   astroConfig: string;
   robots: string;
+  llms: string;
+  projects: readonly {
+    name: string;
+    slug: string;
+    summary: string;
+  }[];
   manifest: unknown;
   wrangler: unknown;
   layoutSource: string;
@@ -33,6 +39,7 @@ export function validateSiteContracts(input: SiteContractInput): string[] {
   }
 
   validateRobots(input.robots, expectedSitemap, issues);
+  validateLlms(input.llms, input.siteUrl, input.projects, issues);
   validateManifest(manifest, input.layoutSource, issues);
 
   if (assets?.directory !== './dist') {
@@ -62,6 +69,9 @@ export function validateSiteContracts(input: SiteContractInput): string[] {
   if (!input.seoSource.includes("'noindex, nofollow'")) {
     issues.push('SEO metadata must support noindex, nofollow.');
   }
+  if (!input.seoSource.includes('max-image-preview:large')) {
+    issues.push('SEO metadata must allow large search-result image previews.');
+  }
   if (!/<title>\s*\{title\}\s*<\/title>/.test(input.seoSource)) {
     issues.push('SEO metadata must render the document title.');
   }
@@ -73,12 +83,53 @@ export function validateSiteContracts(input: SiteContractInput): string[] {
 }
 
 function validateRobots(robots: string, expectedSitemap: string, issues: string[]): void {
-  if (!/^User-agent:\s*\*$/m.test(robots)) {
-    issues.push('robots.txt must define the wildcard user agent.');
+  if (!/^User-agent:\s*OAI-SearchBot\s*\r?\nAllow:\s*\/\s*$/m.test(robots)) {
+    issues.push('robots.txt must explicitly allow OAI-SearchBot.');
+  }
+  if (!/^User-agent:\s*\*\s*\r?\nAllow:\s*\/\s*$/m.test(robots)) {
+    issues.push('robots.txt must allow the wildcard user agent.');
   }
   const sitemap = robots.match(/^Sitemap:\s*(\S+)$/m)?.[1];
   if (sitemap !== expectedSitemap) {
     issues.push(`robots.txt sitemap must be ${expectedSitemap}.`);
+  }
+}
+
+function validateLlms(
+  llms: string,
+  siteUrl: string,
+  projects: SiteContractInput['projects'],
+  issues: string[],
+): void {
+  if (!/^# Everett Labs\s*$/m.test(llms)) {
+    issues.push('llms.txt must identify Everett Labs with a level-one heading.');
+  }
+
+  const expectedUrls = [
+    `${siteUrl}/`,
+    `${siteUrl}/projects`,
+    `${siteUrl}/about`,
+    `${siteUrl}/coffee`,
+    ...projects.map((project) => `${siteUrl}/projects/${project.slug}`),
+  ];
+  for (const url of expectedUrls) {
+    if (!llms.includes(`](${url})`)) {
+      issues.push(`llms.txt must link to ${url}.`);
+    }
+  }
+
+  for (const project of projects) {
+    const expectedEntry = `- [${project.name}](${siteUrl}/projects/${project.slug}): ${project.summary}`;
+    if (!llms.includes(expectedEntry)) {
+      issues.push(`llms.txt entry for ${project.name} must match its editorial name and summary.`);
+    }
+  }
+
+  const forbiddenReferences = ['jichang.gg', 'mofa-guide', 'airport-recommendations-2026', 'hy2'];
+  for (const reference of forbiddenReferences) {
+    if (llms.toLowerCase().includes(reference)) {
+      issues.push(`llms.txt must not reference excluded content: ${reference}.`);
+    }
   }
 }
 

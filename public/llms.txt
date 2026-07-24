@@ -1,0 +1,34 @@
+# Everett Labs
+
+> Independent software lab for useful tools, open systems, and edge-native experiments.
+
+Everett Labs is built by Frank. The site documents practical open-source software for the web,
+browsers, WordPress, and Linux. Public pages are written in English and link to the source repository
+for every listed project.
+
+## Core pages
+
+- [Home](https://everettlabs.dev/): Studio overview, featured projects, engineering principles, and writing links.
+- [Projects](https://everettlabs.dev/projects): Curated index of all approved Everett Labs projects.
+- [About](https://everettlabs.dev/about): Studio identity, principles, ownership, and contact information.
+- [Coffee](https://everettlabs.dev/coffee): Official support options for open-source work.
+
+## Projects
+
+- [Linketry](https://everettlabs.dev/projects/linketry): Self-hosted link management, analytics, and monitoring — built for stable redirects, data ownership, and long-term operation.
+- [GloboKit](https://everettlabs.dev/projects/globokit): A practical browser-based toolkit for international operations, logistics, calculations, barcodes, and everyday productivity.
+- [FavGrove](https://everettlabs.dev/projects/favgrove): A local-first bookmark workspace for Chrome and Edge, designed for large collections, fast search, link scanning, and safe cleanup.
+- [Citeoryx](https://everettlabs.dev/projects/citeoryx): A WordPress content health and AI discoverability engine for inventory, issue prioritization, optimization, and lifecycle monitoring.
+- [LinkVitals](https://everettlabs.dev/projects/linkvitals): A privacy-friendly WordPress link health and SEO auditor for broken links, redirects, orphaned content, and external-link risks.
+- [VPS Scripts](https://everettlabs.dev/projects/vps-scripts): A modular Linux operations toolkit for system maintenance, diagnostics, benchmarking, environment setup, and server administration.
+- [Nezha Cleaner](https://everettlabs.dev/projects/nezha-cleaner): A safety-focused removal utility for Nezha Agent and Dashboard installations across native and Docker environments.
+- [DistroLift](https://everettlabs.dev/projects/distrolift): A cautious, step-by-step upgrade tool for Debian and Ubuntu LTS servers.
+- [NodeLoc Bench](https://everettlabs.dev/projects/nodeloc-bench): A community-maintained server benchmarking launcher that combines performance, IP, connectivity, routing, and network diagnostic tests.
+
+## External sources
+
+- [GitHub](https://github.com/everett7623): Source repositories and release history.
+- [Seedloc](https://seedloc.com): Technical notes, deployment guides, and experiments.
+
+The project pages and linked repositories are the authoritative sources for current capabilities,
+status, licensing, safety notices, and upstream attribution.

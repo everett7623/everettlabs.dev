@@ -15,7 +15,7 @@
 - `/coffee` 浏览器标题与 H1 已统一为 `Buy Me a Coffee`，四种地址已通过对应网络验证。
 - 用户明确决定继续使用当前 Binance 公开充值地址，不迁移独立 Support Wallet；本任务
   仍不得生成、读取、存储或提交私钥、助记词、Keystore、验证码或 API 密钥。
-- Cloudflare Builds 尚未连接 GitHub；`http://everettlabs.dev` 当前返回 `200`，未跳转 HTTPS。
+- Cloudflare Builds 已连接规范 GitHub 仓库；`http://everettlabs.dev` 返回 `301` 并跳转 HTTPS。
 - Wrangler 项目目录绑定命名 profile `everettlabs-prod`，目标 Account ID 为
   `4cc48c9e3b9f084844f4485d51899e36`。
 
@@ -29,8 +29,8 @@
 - [x] 静态校验、类型检查、无 `GITHUB_TOKEN` 构建与桌面/移动浏览器回归通过。
 - [x] 提交和推送只包含本任务文件、相关源码、测试与长期规范。
 - [x] 使用 `everettlabs-prod` dry run 后部署，保留部署前 Worker 版本作为回滚点。
-- [ ] Cloudflare Builds 的生产分支为 `main`，非生产分支生成预览版本。
-- [ ] `http://everettlabs.dev` 返回 `301` 或 `308` 且 `Location` 指向 HTTPS。
+- [x] Cloudflare Builds 的生产分支为 `main`，非生产分支生成预览版本。
+- [x] `http://everettlabs.dev` 返回 `301` 或 `308` 且 `Location` 指向 HTTPS。
 - [x] 保留用户确认的 Binance 公开充值地址，不自行迁移钱包或引入其他收款平台。
 
 ## TODO
@@ -39,7 +39,7 @@
 - [x] 修复 Coffee 页面标题与文案，补充地址校验测试。
 - [x] 更新 TON 长期规范与主产品规格。
 - [x] 提交、推送、等待 GitHub Actions 并部署生产版本。
-- [ ] 在已认证 Cloudflare Dashboard 中连接 GitHub Builds、启用 Always Use HTTPS 并复测。
+- [x] 在已认证 Cloudflare Dashboard 中连接 GitHub Builds、启用 Always Use HTTPS 并复测。
 - [x] 将保留 Binance 地址的当前产品决定同步到长期规范与主规格。
 
 ## 验证结果
@@ -65,13 +65,12 @@
   标题、H1、4 张卡片和 4 个二维码均从公网验证。
 - `[通过]` 生产 Coffee 保持 CSP、HSTS、X-Content-Type-Options、X-Frame-Options 和
   Referrer-Policy；浏览器渲染无桌面横向溢出。
-- `[未通过]` `http://everettlabs.dev` 仍返回 `200`，不是要求的 `301` 或 `308`；必须在正确
-  Cloudflare Dashboard 会话中启用 Always Use HTTPS 后重新验证。
+- `[通过]` 已认证 Dashboard 会话完成 GitHub Builds 与 Always Use HTTPS；生产分支为 `main`，
+  非生产分支构建已启用，HTTP 返回 `301` 并精确跳转到 `https://everettlabs.dev/`。
 
-## 已知阻塞
+## 阻塞解除
 
-- Cloudflare Dashboard 当前未登录，Chrome 浏览器控制扩展不可用。首次 GitHub App 授权和
-  Zone 设置修改必须在用户完成 Dashboard 登录后继续，不能使用默认错误账号代替。
+- Cloudflare Dashboard、GitHub App 授权、自动构建与 Zone HTTPS 设置均已完成并通过生产验证。
 
 ## 产品决定
 

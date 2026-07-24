@@ -1,4 +1,7 @@
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: *
-Disallow:
+Allow: /
 
 Sitemap: https://everettlabs.dev/sitemap-index.xml

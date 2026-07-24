@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createPageSchema,
   createProfilePageSchema,
+  createProjectsCollectionSchema,
   createSoftwareSchema,
   serializeStructuredData,
 } from '../src/utils/seo.ts';
@@ -26,7 +27,56 @@ describe('SEO structured data', () => {
     });
 
     expect(schema['@type']).toBe('ProfilePage');
-    expect(schema.mainEntity).toMatchObject({ '@type': 'Person', name: 'Frank' });
+    expect(schema).toMatchObject({
+      '@id': 'https://everettlabs.dev/about#webpage',
+      inLanguage: 'en',
+      mainEntity: {
+        '@type': 'Person',
+        '@id': 'https://everettlabs.dev/about#frank',
+        name: 'Frank',
+      },
+    });
+  });
+
+  it('describes the project index as a CollectionPage with approved software links', () => {
+    const schema = createProjectsCollectionSchema({
+      title: 'Projects — Everett Labs',
+      description: 'Curated projects.',
+      url: 'https://everettlabs.dev/projects',
+      projects: [
+        { name: 'Linketry', url: 'https://everettlabs.dev/projects/linketry' },
+        { name: 'FavGrove', url: 'https://everettlabs.dev/projects/favgrove' },
+      ],
+    });
+
+    expect(schema).toMatchObject({
+      '@type': 'CollectionPage',
+      isPartOf: { '@id': 'https://everettlabs.dev/#website' },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: 2,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            item: {
+              '@type': 'SoftwareApplication',
+              name: 'Linketry',
+              url: 'https://everettlabs.dev/projects/linketry',
+            },
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            item: {
+              '@type': 'SoftwareApplication',
+              name: 'FavGrove',
+              url: 'https://everettlabs.dev/projects/favgrove',
+            },
+          },
+        ],
+      },
+    });
   });
 
   it('creates project SoftwareApplication metadata without fabricated ratings', () => {
@@ -45,6 +95,7 @@ describe('SEO structured data', () => {
 
     expect(schema).toMatchObject({
       '@type': 'SoftwareApplication',
+      '@id': 'https://everettlabs.dev/projects/linketry#software',
       applicationCategory: 'edge application',
       codeRepository: 'https://github.com/everett7623/Linketry',
       softwareVersion: 'v1.0.0',

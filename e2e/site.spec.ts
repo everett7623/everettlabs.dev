@@ -34,6 +34,40 @@ test('renders Citeoryx in the product catalog and project detail page', async ({
   await expect(page.getByText('GPL-2.0-or-later', { exact: true })).toBeVisible();
 });
 
+test('publishes static search-discovery metadata for the project catalog', async ({
+  page,
+  request,
+}) => {
+  const robotsResponse = await request.get('/robots.txt');
+  await expect(robotsResponse).toBeOK();
+  await expect(robotsResponse.text()).resolves.toContain('User-agent: OAI-SearchBot');
+
+  const llmsResponse = await request.get('/llms.txt');
+  await expect(llmsResponse).toBeOK();
+  await expect(llmsResponse.text()).resolves.toContain('https://everettlabs.dev/projects/linketry');
+
+  await page.goto('/projects');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://everettlabs.dev/projects',
+  );
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    /max-image-preview:large/,
+  );
+
+  const schemaSource = await page.locator('script[type="application/ld+json"]').textContent();
+  expect(schemaSource).not.toBeNull();
+  const schema: unknown = JSON.parse(schemaSource ?? '');
+  expect(schema).toMatchObject({
+    '@type': 'CollectionPage',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: 9,
+    },
+  });
+});
+
 test('renders Ko-fi and copies the four approved cryptocurrency addresses', async ({
   context,
   page,
