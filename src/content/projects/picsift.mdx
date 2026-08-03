@@ -1,0 +1,45 @@
+---
+name: PicSift
+slug: picsift
+repository: everett7623/PicSift
+category: product
+projectType: chrome-extension
+status: active
+ownership: original
+featured: false
+homeOrder: 6
+license: MIT
+tags:
+  - Chrome Extension
+  - JavaScript
+  - Manifest V3
+  - E-commerce
+  - Images
+  - Video
+  - Open Source
+accent: cyan
+summary: A Chrome Manifest V3 extension that extracts product images and videos from e-commerce pages for quick review and download.
+---
+
+## What it solves
+
+Product pages scatter their media across lazy-loaded carousels, hidden variants, and embedded video players. PicSift surfaces all product images and videos from the current page in one panel, so you can review and save what you need without hunting through the DOM.
+
+## Who it is for
+
+Shoppers comparing products, designers referencing visual assets, and QA testers verifying that correct media is present on product listings.
+
+## Why it exists
+
+Browser devtools expose raw network requests but not a clean, browsable view of product media. PicSift bridges that gap with a focused, extension-native UI built for e-commerce pages.
+
+## Key capabilities
+
+- Extracts product images across carousels, thumbnails, and variant swatches
+- Captures embedded and linked product videos
+- Runs entirely locally — no data leaves the browser
+- Manifest V3 architecture for long-term Chrome support
+
+## Engineering notes
+
+PicSift is a Chrome Manifest V3 extension written in JavaScript. DOM traversal and media extraction run in a content script; the popup renders the collected assets and handles download triggers. No background network calls are made.

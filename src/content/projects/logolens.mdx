@@ -1,0 +1,47 @@
+---
+name: LogoLens
+slug: logolens
+repository: everett7623/LogoLens
+category: product
+projectType: chrome-extension
+status: active
+ownership: original
+featured: false
+homeOrder: 7
+license: MIT
+tags:
+  - Chrome Extension
+  - JavaScript
+  - Manifest V3
+  - Logo
+  - Favicon
+  - SVG
+  - Open Source
+accent: violet
+summary: A Chrome Manifest V3 extension that extracts logos, favicons, inline SVGs, and web app icons from any page — all processed locally.
+---
+
+## What it solves
+
+Finding a site's actual logo assets means digging through markup, network requests, and manifest files. LogoLens collects every logo, favicon, inline SVG, and web app icon on the current page and presents them in one place, ready to inspect or save.
+
+## Who it is for
+
+Designers researching brand assets, developers auditing icon coverage, and anyone who needs to pull a site's visual identity without opening DevTools.
+
+## Why it exists
+
+Favicons, `apple-touch-icon` references, web app manifest icons, and inline SVGs live in different places and require different extraction paths. LogoLens unifies all of those into a single local workflow.
+
+## Key capabilities
+
+- Collects favicons from `<link>` tags and `/favicon.ico`
+- Extracts web app icons declared in the site manifest
+- Captures inline SVG elements from the page
+- Surfaces `og:image` and other meta-tag image references
+- Runs entirely locally — nothing is sent to external servers
+- Manifest V3 architecture for long-term Chrome support
+
+## Engineering notes
+
+LogoLens is a Chrome Manifest V3 extension written in JavaScript. A content script walks the DOM and fetches the site's web app manifest; the popup renders the collected assets grouped by type. All processing is local to the browser with no outbound network calls beyond fetching the manifest file the browser would load anyway.
