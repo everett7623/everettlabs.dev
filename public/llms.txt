@@ -19,6 +19,9 @@ for every listed project.
 - [GloboKit](https://everettlabs.dev/projects/globokit): A practical browser-based toolkit for international operations, logistics, calculations, barcodes, and everyday productivity.
 - [FavGrove](https://everettlabs.dev/projects/favgrove): A local-first bookmark workspace for Chrome and Edge, designed for large collections, fast search, link scanning, and safe cleanup.
 - [Citeoryx](https://everettlabs.dev/projects/citeoryx): A WordPress content health and AI discoverability engine for inventory, issue prioritization, optimization, and lifecycle monitoring.
+- [PicSift](https://everettlabs.dev/projects/picsift): A Chrome Manifest V3 extension that extracts product images and videos from e-commerce pages for quick review and download.
+- [LogoLens](https://everettlabs.dev/projects/logolens): A Chrome Manifest V3 extension that extracts logos, favicons, inline SVGs, and web app icons from any page — all processed locally.
+- [Rackora](https://everettlabs.dev/projects/rackora): A minimal, content-first Halo 2.x theme for independent publishing, knowledge bases, and technical writing.
 - [LinkVitals](https://everettlabs.dev/projects/linkvitals): A privacy-friendly WordPress link health and SEO auditor for broken links, redirects, orphaned content, and external-link risks.
 - [VPS Scripts](https://everettlabs.dev/projects/vps-scripts): A modular Linux operations toolkit for system maintenance, diagnostics, benchmarking, environment setup, and server administration.
 - [Nezha Cleaner](https://everettlabs.dev/projects/nezha-cleaner): A safety-focused removal utility for Nezha Agent and Dashboard installations across native and Docker environments.

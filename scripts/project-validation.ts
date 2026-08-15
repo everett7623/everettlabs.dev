@@ -58,6 +58,28 @@ const expectedProjects: Record<string, ExpectedProject> = {
     featured: 'false',
     homeOrder: '5',
   },
+  picsift: {
+    repository: 'everett7623/PicSift',
+    category: 'product',
+    ownership: 'original',
+    featured: 'false',
+    homeOrder: '6',
+  },
+  logolens: {
+    repository: 'everett7623/LogoLens',
+    category: 'product',
+    ownership: 'original',
+    featured: 'false',
+    homeOrder: '7',
+  },
+  rackora: {
+    repository: 'everett7623/halo-theme-rackora',
+    category: 'product',
+    ownership: 'original',
+    featured: 'false',
+    homeOrder: '8',
+    screenshot: true,
+  },
   'vps-scripts': {
     repository: 'everett7623/vps_scripts',
     category: 'infrastructure',
@@ -229,7 +251,7 @@ function validateExpectedFields(
   if (expected.screenshot && !frontmatterValue(document.content, 'screenshot')) {
     issues.push({
       file: document.file,
-      message: 'FavGrove requires its approved project screenshot.',
+      message: 'Project requires its approved screenshot.',
     });
   }
 }

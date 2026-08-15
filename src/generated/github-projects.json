@@ -108,5 +108,15 @@
     "updatedAt": "2026-07-11T06:12:23Z",
     "license": "GPL-3.0",
     "archived": false
+  },
+  {
+    "repository": "everett7623/halo-theme-rackora",
+    "stars": 0,
+    "forks": 0,
+    "language": "HTML",
+    "latestRelease": "v0.6.7",
+    "updatedAt": "2026-08-15T17:02:11Z",
+    "license": "GPL-3.0",
+    "archived": false
   }
 ]
