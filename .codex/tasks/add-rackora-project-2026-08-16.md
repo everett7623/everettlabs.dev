@@ -52,3 +52,6 @@
 - `[通过]` 将 E2E 契约同步为 12 项，并新增 Rackora 在目录页、详情页、GitHub 链接和 GPL-3.0
   许可的桌面与移动断言；本地 `npm run validate:static` 与 `npm run test:e2e` 均通过，后者为
   11 项通过、3 项按设备范围跳过。
+- `[通过]` 修复提交 `d09ec57` 的 GitHub Actions `31898165384`：`Validate` 作业在 Node 22 的
+  GitHub-hosted Ubuntu 环境完成，静态校验、类型检查、Playwright 和本地 Lighthouse 均成功；
+  生产 Lighthouse 按普通 `push` 工作流设计跳过。
