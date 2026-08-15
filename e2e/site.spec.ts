@@ -18,12 +18,13 @@ test('renders the homepage and a project detail page', async ({ page }) => {
   );
 });
 
-test('renders Citeoryx in the product catalog and project detail page', async ({ page }) => {
+test('renders Citeoryx and Rackora in the product catalog and detail pages', async ({ page }) => {
   await page.goto('/projects');
   const products = page
     .getByRole('heading', { name: 'Products' })
     .locator('xpath=ancestor::section');
   await expect(products.getByRole('link', { name: /Citeoryx/ })).toBeVisible();
+  await expect(products.getByRole('link', { name: /Rackora/ })).toBeVisible();
 
   await page.goto('/projects/citeoryx');
   await expect(page.getByRole('heading', { name: 'Citeoryx', exact: true })).toBeVisible();
@@ -32,6 +33,14 @@ test('renders Citeoryx in the product catalog and project detail page', async ({
     'https://github.com/everett7623/Citeoryx',
   );
   await expect(page.getByText('GPL-2.0-or-later', { exact: true })).toBeVisible();
+
+  await page.goto('/projects/rackora');
+  await expect(page.getByRole('heading', { name: 'Rackora', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/everett7623/halo-theme-rackora',
+  );
+  await expect(page.getByText('GPL-3.0', { exact: true })).toBeVisible();
 });
 
 test('publishes static search-discovery metadata for the project catalog', async ({
@@ -63,7 +72,7 @@ test('publishes static search-discovery metadata for the project catalog', async
     '@type': 'CollectionPage',
     mainEntity: {
       '@type': 'ItemList',
-      numberOfItems: 9,
+      numberOfItems: 12,
     },
   });
 });

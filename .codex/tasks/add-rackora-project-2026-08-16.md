@@ -47,3 +47,8 @@
 - `[通过]` `npm run test`：13 个测试文件、73 项测试全部通过。
 - `[通过]` 在移除 `GITHUB_TOKEN` 的进程环境后执行 `npm run build`：同步步骤保留提交的
   GitHub 快照，生产构建生成 17 个静态页面，包含 `/projects/rackora`。
+- `[失败，已修复]` GitHub Actions `31897896173` 的 Playwright 阶段仍将项目集合 JSON-LD 的
+  `numberOfItems` 断言为 9，而页面正确输出 12；其余静态校验和类型检查均通过。
+- `[通过]` 将 E2E 契约同步为 12 项，并新增 Rackora 在目录页、详情页、GitHub 链接和 GPL-3.0
+  许可的桌面与移动断言；本地 `npm run validate:static` 与 `npm run test:e2e` 均通过，后者为
+  11 项通过、3 项按设备范围跳过。
