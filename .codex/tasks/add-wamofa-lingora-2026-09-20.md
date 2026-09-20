@@ -34,12 +34,13 @@
 - [x] 更新项目精确契约、命令契约与 E2E 项目数量。
 - [x] 运行验证并回写结果。
 - [x] 提交并推送 `main`，等待 GitHub Actions，核验生产域名。
+- [x] 手动触发生产 Lighthouse 并记录真实分数。
 
 ## 已知阻塞
 
 - 无。WAMofa / Lingora 暂无真实截图，按现有无截图项目处理。
 - 未对错误 Cloudflare 账号执行 `wrangler deploy`。生产依赖 Cloudflare Builds 连接 `everett7623/everettlabs.dev` 的 `main`。
-- 普通 `push` 工作流按设计跳过生产 Lighthouse；未把它记为通过。
+- 普通 `push` 工作流按设计跳过生产 Lighthouse；已通过手动 `workflow_dispatch` `35499277574` 补跑。
 
 ## Git、CI 与生产
 
@@ -47,10 +48,14 @@
   `feat: add WAMofa and Lingora, and point DistroLift at DistroLift`
 - 行数修复提交：`60f1e5b40d701841c186238226807cd3af19747c`
   `fix: split project catalog contract to stay under the source-size limit`
-- 推送：`origin/main` 与远程 `refs/heads/main` 均为 `60f1e5b40d701841c186238226807cd3af19747c`
-- 仓库：https://github.com/everett7623/everettlabs.dev/commit/60f1e5b40d701841c186238226807cd3af19747c
+- 文档回写提交：`69e231ac9f8e8ee0560bd9afefadfaf51d9c74f3`
+  `docs: record WAMofa Lingora CI and production verification`
+- 推送：本地 HEAD、`origin/main` 与远程 `refs/heads/main` 均为 `69e231ac9f8e8ee0560bd9afefadfaf51d9c74f3`
+- 仓库：https://github.com/everett7623/everettlabs.dev/commit/69e231ac9f8e8ee0560bd9afefadfaf51d9c74f3
 - `[失败，已修复]` GitHub Actions `35498251711`（`d93b999`）：`validate:static` 因 `scripts/project-validation.ts` 306 有效行超过 300 行限制失败。https://github.com/everett7623/everettlabs.dev/actions/runs/35498251711
 - `[通过]` GitHub Actions `35498367999`（`60f1e5b`）：Validate 作业完成静态校验、类型检查、Playwright 与本地 Lighthouse；生产 Lighthouse 按普通 `push` 跳过。https://github.com/everett7623/everettlabs.dev/actions/runs/35498367999
+- `[通过]` GitHub Actions `35498772989`（`69e231a`）：普通 `push` 校验通过；生产 Lighthouse 按设计跳过。https://github.com/everett7623/everettlabs.dev/actions/runs/35498772989
+- `[通过]` GitHub Actions `35499277574`（`69e231a`，`workflow_dispatch`）：静态校验、类型检查、Playwright、本地 Lighthouse 与生产 Lighthouse 均完成。https://github.com/everett7623/everettlabs.dev/actions/runs/35499277574
 
 ## 验证结果
 
@@ -65,5 +70,5 @@
 - `[通过]` 生产 HTTPS：`https://everettlabs.dev/`、`/projects`（`numberOfItems` 14，含 Rackora / WAMofa / Lingora / DistroLift）、`/projects/rackora`、`/projects/wamofa`、`/projects/lingora`、`/projects/distrolift` 均为 200。DistroLift GitHub 链接为 `https://github.com/everett7623/DistroLift`。
 - `[通过]` 生产 `robots.txt` 与 `llms.txt` 均为 200；`robots.txt` 允许 `OAI-SearchBot`；`sitemap-0.xml` 含 wamofa、lingora、rackora、distrolift。
 - `[通过]` `http://everettlabs.dev/` 返回 `301`，`Location: https://everettlabs.dev/`。
-- `[跳过，按设计]` 生产 Lighthouse 仅手动 `workflow_dispatch` 执行。
+- `[通过]` 手动 `workflow_dispatch` 生产 Lighthouse `35499277574`：首页 P 99 / A 100 / BP 100 / SEO 100，FCP 1.6s、LCP 1.6s、TBT 84ms、CLS 0；Linketry P 98 / A 100 / BP 100 / SEO 100，FCP 1.8s、LCP 2.0s、TBT 38ms、CLS 0。四分类均不低于 0.95。https://github.com/everett7623/everettlabs.dev/actions/runs/35499277574
 - `[未执行]` Wrangler CLI 部署：账号不匹配风险，依赖 Cloudflare Builds。
