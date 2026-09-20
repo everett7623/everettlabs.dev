@@ -1,0 +1,46 @@
+---
+name: Lingora
+slug: lingora
+repository: everett7623/Lingora
+category: product
+projectType: wordpress-plugin
+status: experimental
+ownership: original
+featured: false
+homeOrder: 10
+license: GPL-2.0-or-later
+tags:
+  - WordPress
+  - PHP
+  - Multilingual
+  - Translation
+  - i18n
+  - Open Source
+accent: green
+summary: An AI-native WordPress multilingual engine that keeps one set of posts and serves language directory URLs such as /de/.
+---
+
+## What it solves
+
+Most multilingual WordPress setups duplicate posts per language. Lingora keeps a single content set, prefixes translated routes such as `/de/about/`, and translates rendered copy instead of cloning the editorial workflow.
+
+## Who it is for
+
+Publishers who want a multilingual WordPress site without maintaining parallel posts, and who already have an AI provider key for missing translations.
+
+## Why it exists
+
+Duplicated posts drift. Lingora follows a live-site translation model: one inventory, language prefixes, a visual editor on the published page, and optional automatic translation for strings that do not yet have a translation.
+
+## Key capabilities
+
+- Directory URLs such as `/de/` while the default language stays unprefixed
+- Translation of rendered HTML text and common attributes, stored in custom tables
+- Optional auto-translation of missing copy through a configured AI provider
+- Language switcher, shortcode, widget, and menu injection
+- hreflang tags, canonical URLs, and multilingual sitemaps
+- Visual editor from the admin bar, with optional slug, gettext, search, and WooCommerce URL translation
+
+## Engineering notes
+
+Lingora is a GPL-2.0-or-later WordPress plugin for WordPress 6.4+ and PHP 8.1+. The current public tree is version 0.0.1. It can connect to OpenAI, Claude, DeepSeek, Gemini, Grok, and other OpenAI-compatible gateways. The plugin URI points at Everett Labs; it is not a WordPress.org listing.

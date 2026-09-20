@@ -53,6 +53,8 @@ describe('command palette contract', () => {
       'picsift',
       'logolens',
       'rackora',
+      'wamofa',
+      'lingora',
       'vps-scripts',
       'nezha-cleaner',
       'distrolift',

@@ -199,8 +199,13 @@ export const approvedRepositories = [
   "everett7623/FavGrove",
   "everett7623/Citeoryx",
   "everett7623/LinkVitals",
+  "everett7623/PicSift",
+  "everett7623/LogoLens",
+  "everett7623/halo-theme-rackora",
+  "everett7623/wamofa",
+  "everett7623/Lingora",
   "everett7623/Nezha-cleaner",
-  "everett7623/debian-auto-upgrade",
+  "everett7623/DistroLift",
   "everett7623/vps_scripts",
   "everett7623/nodeloc_vps_test",
 ] as const;
@@ -278,6 +283,16 @@ These are the main Everett Labs product-style projects:
 4. GloboKit
 
 5. Citeoryx
+
+6. PicSift
+
+7. LogoLens
+
+8. Rackora
+
+9. WAMofa
+
+10. Lingora
     
 
 ## 5.2 Infrastructure Utilities
@@ -574,7 +589,7 @@ Automation
 **Category:** Operating system maintenance  
 **Status:** Stable  
 **Ownership:** Original  
-**Repository:** `everett7623/debian-auto-upgrade`
+**Repository:** `everett7623/DistroLift`
 
 ### Display Name
 

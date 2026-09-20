@@ -1,0 +1,49 @@
+---
+name: WAMofa
+slug: wamofa
+repository: everett7623/wamofa
+category: product
+projectType: browser-extension
+status: active
+ownership: original
+featured: false
+homeOrder: 9
+website: https://wamofa.com
+license: MIT
+tags:
+  - Browser Extension
+  - Chrome
+  - Firefox
+  - TypeScript
+  - React
+  - WhatsApp Web
+  - Privacy
+  - Open Source
+accent: violet
+summary: A WhatsApp Web workbench for translation, local contact notes, quick replies, and voice transcription — independent of WhatsApp.
+---
+
+## What it solves
+
+WhatsApp Web is built for conversation, not for translation, contact notes, or reusable replies. WAMofa adds those tools on top of the official web client without sending chat history to a third-party host.
+
+## Who it is for
+
+People who use WhatsApp Web for work: multilingual conversations, repeat replies, and lightweight client notes that should stay on the local machine.
+
+## Why it exists
+
+Translation and CRM add-ons often upload conversations or automate bulk sending. WAMofa stays in the browser, uses the official `web.whatsapp.com/send` contact links, and keeps notes, tags, and templates in local extension storage.
+
+## Key capabilities
+
+- Translate message pairs and compose translated replies with a preview before sending
+- Quick-reply templates with keyboard shortcuts
+- Local contact notes, tags, and first/last contact timestamps
+- Voice-message transcription through a configured speech model
+- Official WhatsApp Web send links for opening a chat by phone number
+- Chrome and Firefox Manifest V3 builds
+
+## Engineering notes
+
+WAMofa is an MIT-licensed browser extension written in TypeScript and React with WXT. Notes, tags, templates, and translation history stay in `chrome.storage.local`. Provider API keys are read only by the extension background worker. The project is independent software and is not affiliated with WhatsApp.

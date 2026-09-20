@@ -25,6 +25,8 @@ test('renders Citeoryx and Rackora in the product catalog and detail pages', asy
     .locator('xpath=ancestor::section');
   await expect(products.getByRole('link', { name: /Citeoryx/ })).toBeVisible();
   await expect(products.getByRole('link', { name: /Rackora/ })).toBeVisible();
+  await expect(products.getByRole('link', { name: /WAMofa/ })).toBeVisible();
+  await expect(products.getByRole('link', { name: /Lingora/ })).toBeVisible();
 
   await page.goto('/projects/citeoryx');
   await expect(page.getByRole('heading', { name: 'Citeoryx', exact: true })).toBeVisible();
@@ -41,6 +43,28 @@ test('renders Citeoryx and Rackora in the product catalog and detail pages', asy
     'https://github.com/everett7623/halo-theme-rackora',
   );
   await expect(page.getByText('GPL-3.0', { exact: true })).toBeVisible();
+
+  await page.goto('/projects/wamofa');
+  await expect(page.getByRole('heading', { name: 'WAMofa', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/everett7623/wamofa',
+  );
+  await expect(page.getByText('MIT', { exact: true })).toBeVisible();
+
+  await page.goto('/projects/lingora');
+  await expect(page.getByRole('heading', { name: 'Lingora', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/everett7623/Lingora',
+  );
+  await expect(page.getByText('GPL-2.0-or-later', { exact: true })).toBeVisible();
+
+  await page.goto('/projects/distrolift');
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/everett7623/DistroLift',
+  );
 });
 
 test('publishes static search-discovery metadata for the project catalog', async ({
@@ -72,7 +96,7 @@ test('publishes static search-discovery metadata for the project catalog', async
     '@type': 'CollectionPage',
     mainEntity: {
       '@type': 'ItemList',
-      numberOfItems: 12,
+      numberOfItems: 14,
     },
   });
 });

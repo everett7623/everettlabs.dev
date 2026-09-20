@@ -19,7 +19,7 @@ const INITIAL_LINES = [
 const COMMANDS: Record<string, string[]> = {
   help: ['Available commands:', 'help, projects, writing, github, telegram, coffee, clear'],
   projects: [
-    'Products: Linketry, FavGrove, LinkVitals, GloboKit',
+    'Products: Linketry, FavGrove, LinkVitals, GloboKit, WAMofa, Lingora',
     'Infrastructure: VPS Scripts, Nezha Cleaner, DistroLift, NodeLoc Bench',
   ],
   writing: [`Opening ${site.seedloc} in a new tab...`],

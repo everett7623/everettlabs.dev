@@ -80,6 +80,20 @@ const expectedProjects: Record<string, ExpectedProject> = {
     homeOrder: '8',
     screenshot: true,
   },
+  wamofa: {
+    repository: 'everett7623/wamofa',
+    category: 'product',
+    ownership: 'original',
+    featured: 'false',
+    homeOrder: '9',
+  },
+  lingora: {
+    repository: 'everett7623/Lingora',
+    category: 'product',
+    ownership: 'original',
+    featured: 'false',
+    homeOrder: '10',
+  },
   'vps-scripts': {
     repository: 'everett7623/vps_scripts',
     category: 'infrastructure',
@@ -96,7 +110,7 @@ const expectedProjects: Record<string, ExpectedProject> = {
     riskNotice: true,
   },
   distrolift: {
-    repository: 'everett7623/debian-auto-upgrade',
+    repository: 'everett7623/DistroLift',
     category: 'infrastructure',
     ownership: 'original',
     featured: 'false',
