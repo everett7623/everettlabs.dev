@@ -24,7 +24,8 @@ test('renders Citeoryx and Rackora in the product catalog and detail pages', asy
     .getByRole('heading', { name: 'Products' })
     .locator('xpath=ancestor::section');
   await expect(products.getByRole('link', { name: /Citeoryx/ })).toBeVisible();
-  await expect(products.getByRole('link', { name: /Rackora/ })).toBeVisible();
+  await expect(products.locator('a[href="/projects/rackora"]')).toBeVisible();
+  await expect(products.locator('a[href="/projects/rackora-wp"]')).toBeVisible();
   await expect(products.getByRole('link', { name: /WAMofa/ })).toBeVisible();
   await expect(products.getByRole('link', { name: /Lingora/ })).toBeVisible();
 
@@ -42,7 +43,24 @@ test('renders Citeoryx and Rackora in the product catalog and detail pages', asy
     'href',
     'https://github.com/everett7623/halo-theme-rackora',
   );
+  await expect(page.getByRole('link', { name: 'Live Site' })).toHaveAttribute(
+    'href',
+    'https://rackora.cc',
+  );
   await expect(page.getByText('GPL-3.0', { exact: true })).toBeVisible();
+
+  await page.goto('/projects/rackora-wp');
+  await expect(
+    page.getByRole('heading', { name: 'Rackora for WordPress', exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/everett7623/wordpress-theme-rackora',
+  );
+  await expect(page.getByRole('link', { name: 'Live Site' })).toHaveAttribute(
+    'href',
+    'https://rackora.cc',
+  );
 
   await page.goto('/projects/wamofa');
   await expect(page.getByRole('heading', { name: 'WAMofa', exact: true })).toBeVisible();
@@ -96,7 +114,7 @@ test('publishes static search-discovery metadata for the project catalog', async
     '@type': 'CollectionPage',
     mainEntity: {
       '@type': 'ItemList',
-      numberOfItems: 14,
+      numberOfItems: 15,
     },
   });
 });

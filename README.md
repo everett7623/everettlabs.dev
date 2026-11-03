@@ -52,10 +52,22 @@ Additional checks:
 | `npm run audit:lighthouse` | Audit the local production build |
 | `npm run audit:lighthouse:production` | Audit the deployed HTTPS site |
 | `npm run validate:links:external` | Probe external links without hiding transient failures |
-| `npm run sync:github` | Refresh the committed GitHub metadata snapshot |
+| `npm run sync:github` | Refresh the committed GitHub metadata snapshot and sync meta |
+| `npm run discover:candidates` | List non-blocked public repos as a review-only candidate report |
 | `npm run generate:og` | Regenerate project Open Graph images |
 
 `validate:static` includes linting, formatting, source-size limits, project contracts, internal links, accessibility, GitHub metadata, security, site deployment contracts, and unit tests.
+
+## Monthly maintenance
+
+A scheduled GitHub Actions workflow refreshes the approved GitHub metadata snapshot, writes a
+filtered project-candidate report, and runs production health checks. It never auto-publishes
+projects. The human checklist lives in
+[`.codex/runbooks/monthly-site-maintenance.md`](.codex/runbooks/monthly-site-maintenance.md).
+
+Snapshot freshness is tracked in `src/generated/github-sync-meta.json`. CI warns after 45 days and
+fails after 90 days unless overridden with `GITHUB_SNAPSHOT_WARN_AGE_DAYS` /
+`GITHUB_SNAPSHOT_MAX_AGE_DAYS`.
 
 ## Project structure
 
@@ -73,10 +85,15 @@ Additional checks:
 | `e2e/` | Playwright browser coverage |
 | `.codex/tasks/` | Active development task records |
 | `.codex/tasks/archive/` | Completed task records grouped by month |
+| `.codex/runbooks/` | Recurring operations checklists |
+| `.codex/reports/` | Local/CI candidate discovery artifacts (gitignored) |
 
 ## GitHub metadata
 
-`GITHUB_TOKEN` is optional and is used only by the build-time metadata sync. Never expose it through a public client environment variable. If the token is missing or GitHub is temporarily unavailable, the build preserves and validates `src/generated/github-projects.json`.
+`GITHUB_TOKEN` is optional and is used only by the build-time metadata sync and candidate discovery.
+Never expose it through a public client environment variable. If the token is missing or GitHub is
+temporarily unavailable, the build preserves and validates `src/generated/github-projects.json`.
+Successful syncs also refresh `src/generated/github-sync-meta.json`.
 
 ## Search discovery
 
@@ -129,4 +146,6 @@ They are recreated by Astro, Wrangler, Lighthouse, or Playwright. Keep `node_mod
 
 - `Everett Labs Developer Website.md` is the product and architecture specification.
 - `AGENTS.md` contains the project development and safety rules.
+- `.codex/runbooks/monthly-site-maintenance.md` is the recurring site maintenance checklist.
 - `.codex/tasks/website-v1-quality-2026-07-16.md` tracks the remaining v1 quality work.
+- `.codex/tasks/monthly-maintenance-framework-2026-11-03.md` tracks this maintenance framework.

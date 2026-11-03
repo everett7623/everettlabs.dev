@@ -11,6 +11,7 @@
     "build": "npm run generate:og && npm run sync:github && astro build",
     "preview": "astro preview",
     "sync:github": "tsx scripts/sync-github.ts",
+    "discover:candidates": "tsx scripts/discover-project-candidates.ts",
     "generate:og": "tsx scripts/generate-og.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

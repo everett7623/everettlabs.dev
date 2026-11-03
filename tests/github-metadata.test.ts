@@ -4,6 +4,11 @@ import {
   parseGitHubRepository,
   parseLatestRelease,
 } from '../scripts/github-metadata.ts';
+import {
+  evaluateSnapshotAge,
+  parseGitHubSyncMeta,
+  resolveSnapshotAgeLimits,
+} from '../scripts/github-sync-meta.ts';
 import type { GitHubProjectMeta } from '../src/types/github.ts';
 import { parseGitHubMetadataSnapshot } from '../src/utils/github-metadata.ts';
 
@@ -115,5 +120,45 @@ describe('GitHub snapshot parsing', () => {
         { ...metadata('everettlabs/project', 1), updatedAt: 'not-a-date' },
       ]),
     ).toThrow('invalid updatedAt');
+  });
+});
+
+describe('GitHub sync meta freshness', () => {
+  it('parses syncedAt and evaluates warn/fail thresholds', () => {
+    expect(parseGitHubSyncMeta({ syncedAt: '2026-11-03T00:00:00.000Z' })).toEqual({
+      syncedAt: '2026-11-03T00:00:00.000Z',
+    });
+
+    const now = new Date('2026-11-03T00:00:00.000Z');
+    expect(
+      evaluateSnapshotAge('2026-10-01T00:00:00.000Z', {
+        warnAfterDays: 45,
+        failAfterDays: 90,
+        now,
+      }).status,
+    ).toBe('ok');
+    expect(
+      evaluateSnapshotAge('2026-09-01T00:00:00.000Z', {
+        warnAfterDays: 45,
+        failAfterDays: 90,
+        now,
+      }).status,
+    ).toBe('warn');
+    expect(
+      evaluateSnapshotAge('2026-07-01T00:00:00.000Z', {
+        warnAfterDays: 45,
+        failAfterDays: 90,
+        now,
+      }).status,
+    ).toBe('fail');
+  });
+
+  it('reads age limits from the environment', () => {
+    expect(
+      resolveSnapshotAgeLimits({
+        GITHUB_SNAPSHOT_WARN_AGE_DAYS: '30',
+        GITHUB_SNAPSHOT_MAX_AGE_DAYS: '60',
+      }),
+    ).toEqual({ warnAfterDays: 30, failAfterDays: 60 });
   });
 });

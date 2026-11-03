@@ -2,9 +2,17 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { approvedRepositories } from '../src/utils/approved-repositories.ts';
 import { parseGitHubMetadataSnapshot } from '../src/utils/github-metadata.ts';
+import {
+  evaluateSnapshotAge,
+  parseGitHubSyncMeta,
+  resolveSnapshotAgeLimits,
+} from './github-sync-meta.ts';
 
 const snapshotFile = fileURLToPath(
   new URL('../src/generated/github-projects.json', import.meta.url),
+);
+const syncMetaFile = fileURLToPath(
+  new URL('../src/generated/github-sync-meta.json', import.meta.url),
 );
 
 function main() {
@@ -24,7 +32,35 @@ function main() {
     return;
   }
 
-  console.log(`Validated ${metadata.length} cached GitHub metadata entries.`);
+  let syncMetaRaw: unknown;
+  try {
+    syncMetaRaw = JSON.parse(readFileSync(syncMetaFile, 'utf-8'));
+  } catch (error) {
+    console.error(
+      'Missing or unreadable GitHub sync meta at src/generated/github-sync-meta.json:',
+      error instanceof Error ? error.message : String(error),
+    );
+    process.exitCode = 1;
+    return;
+  }
+
+  const { syncedAt } = parseGitHubSyncMeta(syncMetaRaw);
+  const limits = resolveSnapshotAgeLimits();
+  const age = evaluateSnapshotAge(syncedAt, limits);
+
+  if (age.status === 'fail') {
+    console.error(age.message);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (age.status === 'warn') {
+    console.warn(age.message);
+  }
+
+  console.log(
+    `Validated ${metadata.length} cached GitHub metadata entries (synced ${age.ageDays.toFixed(1)} days ago).`,
+  );
 }
 
 main();

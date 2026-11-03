@@ -7,6 +7,7 @@ export const approvedRepositories = [
   'everett7623/PicSift',
   'everett7623/LogoLens',
   'everett7623/halo-theme-rackora',
+  'everett7623/wordpress-theme-rackora',
   'everett7623/wamofa',
   'everett7623/Lingora',
   'everett7623/Nezha-cleaner',

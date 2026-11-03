@@ -1,3 +1,4 @@
+import { blockedContentPatterns } from './blocked-repositories.ts';
 import { frontmatterValue } from './frontmatter.ts';
 import { expectedProjects, type ExpectedProject } from './expected-projects.ts';
 
@@ -11,18 +12,7 @@ export interface ProjectValidationIssue {
   message: string;
 }
 
-const prohibitedContent = [
-  /\bairport recommendations?\b/i,
-  /\bproxy subscriptions?\b/i,
-  /\bproxy providers?\b/i,
-  /\bclash subscriptions?\b/i,
-  /\btraffic resale\b/i,
-  /\bairport rankings?\b/i,
-  /\bjichang\.gg\b/i,
-  /\bmofa-guide\b/i,
-  /\bairport-recommendations-2026\b/i,
-  /\bhy2\b/i,
-];
+const prohibitedContent = blockedContentPatterns;
 
 const requiredFields = [
   'name',

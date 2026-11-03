@@ -9,9 +9,13 @@ import {
   parseGitHubRepository,
   parseLatestRelease,
 } from './github-metadata.ts';
+import type { GitHubSyncMeta } from './github-sync-meta.ts';
 
 const outFile = join(
   fileURLToPath(new URL('../src/generated/github-projects.json', import.meta.url)),
+);
+const metaFile = join(
+  fileURLToPath(new URL('../src/generated/github-sync-meta.json', import.meta.url)),
 );
 
 async function fetchJson(url: string, token?: string): Promise<unknown> {
@@ -67,9 +71,14 @@ async function main() {
 
   const merged = mergeGitHubMetadata(approvedRepositories, readCachedMetadata(), results);
   writeFileSync(outFile, `${JSON.stringify(merged, null, 2)}\n`);
+
+  const syncMeta: GitHubSyncMeta = { syncedAt: new Date().toISOString() };
+  writeFileSync(metaFile, `${JSON.stringify(syncMeta, null, 2)}\n`);
+
   console.log(
     `Synced ${results.length} repositories; preserved ${merged.length - results.length} cached entries.`,
   );
+  console.log(`Wrote sync meta ${syncMeta.syncedAt}`);
 }
 
 main().catch((err) => {

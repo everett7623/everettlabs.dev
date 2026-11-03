@@ -8,6 +8,8 @@ playwright-report/
 test-results/
 coverage/
 
+.codex/reports/project-candidates-*.md
+
 .env
 .env.*
 !.env.example

@@ -23,6 +23,7 @@ export const commands: CommandItem[] = [
   { id: 'picsift', label: 'Open PicSift', href: '/projects/picsift' },
   { id: 'logolens', label: 'Open LogoLens', href: '/projects/logolens' },
   { id: 'rackora', label: 'Open Rackora', href: '/projects/rackora' },
+  { id: 'rackora-wp', label: 'Open Rackora for WordPress', href: '/projects/rackora-wp' },
   { id: 'wamofa', label: 'Open WAMofa', href: '/projects/wamofa' },
   { id: 'lingora', label: 'Open Lingora', href: '/projects/lingora' },
   { id: 'vps-scripts', label: 'Open VPS Scripts', href: '/projects/vps-scripts' },

@@ -53,6 +53,7 @@ describe('command palette contract', () => {
       'picsift',
       'logolens',
       'rackora',
+      'rackora-wp',
       'wamofa',
       'lingora',
       'vps-scripts',

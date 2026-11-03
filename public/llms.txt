@@ -22,6 +22,7 @@ for every listed project.
 - [PicSift](https://everettlabs.dev/projects/picsift): A Chrome Manifest V3 extension that extracts product images and videos from e-commerce pages for quick review and download.
 - [LogoLens](https://everettlabs.dev/projects/logolens): A Chrome Manifest V3 extension that extracts logos, favicons, inline SVGs, and web app icons from any page — all processed locally.
 - [Rackora](https://everettlabs.dev/projects/rackora): A minimal, content-first Halo 2.x theme for independent publishing, knowledge bases, and technical writing.
+- [Rackora for WordPress](https://everettlabs.dev/projects/rackora-wp): A minimal, content-first WordPress block theme for independent publishing, knowledge bases, and technical writing.
 - [WAMofa](https://everettlabs.dev/projects/wamofa): A WhatsApp Web workbench for translation, local contact notes, quick replies, and voice transcription — independent of WhatsApp.
 - [Lingora](https://everettlabs.dev/projects/lingora): An AI-native WordPress multilingual engine that keeps one set of posts and serves language directory URLs such as /de/.
 - [LinkVitals](https://everettlabs.dev/projects/linkvitals): A privacy-friendly WordPress link health and SEO auditor for broken links, redirects, orphaned content, and external-link risks.
