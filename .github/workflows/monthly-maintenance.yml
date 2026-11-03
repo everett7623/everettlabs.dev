@@ -105,6 +105,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Probe external links
         run: npm run validate:links:external
         continue-on-error: true
